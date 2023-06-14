@@ -148,10 +148,7 @@ function startGame() {
   startButton.disabled = true;
   resetButton.disabled = false;
 
-  // ゲームの初期化処理
-  grid = createGrid();
-  currentPiece = createPiece();
-  score = 0;
+  resetGame(); // リセット処理を追加
 
   gameInterval = setInterval(() => {
     if (!movePieceDown()) {
@@ -168,6 +165,7 @@ function startGame() {
     updateScore();
   }, 500);
 }
+
 
 function resetGame() {
   startButton.disabled = false;
