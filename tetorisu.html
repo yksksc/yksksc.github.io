@@ -148,14 +148,24 @@ function startGame() {
   startButton.disabled = true;
   resetButton.disabled = false;
 
+  // ゲームの初期化処理
+  grid = createGrid();
+  currentPiece = createPiece();
+  score = 0;
+
   gameInterval = setInterval(() => {
-    if (currentPiece === null) {
+    if (!movePieceDown()) {
+      lockPiece();
+      clearLines();
       currentPiece = createPiece();
-    } else {
-      if (!movePieceDown()) {
-        currentPiece = null;
+
+      if (isGameOver()) {
+        clearInterval(gameInterval);
+        gameOver();
       }
     }
+    updateGrid();
+    updateScore();
   }, 500);
 }
 
