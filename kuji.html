@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>くじ引き</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #result {
+      font-size: 24px;
+      color: #f00;
+      font-weight: bold;
+    }
+  </style>
+  <script>
+    // JavaScriptコードは前の例と同じです
+    function drawLottery() {
+      // くじのリストを作成
+      var lotteryList = ["大吉", "中吉", "小吉", "末吉", "凶"];
+
+      // 乱数を生成してくじを選択
+      var randomIndex = Math.floor(Math.random() * lotteryList.length);
+      var result = lotteryList[randomIndex];
+
+      // 結果を表示
+      document.getElementById("result").innerHTML = "結果：" + result;
+    }
+  </script>
+</head>
+<body>
+  <h1>くじ引き</h1>
+  <button onclick="drawLottery()">くじを引く</button>
+  <p id="result"></p>
+</body>
+</html>
