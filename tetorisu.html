@@ -45,35 +45,76 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const tetris = document.querySelector('.tetris');
-      const grid = [];
-      const rows = 20;
-      const cols = 10;
+  const tetris = document.querySelector('.tetris');
+  let grid = [];
+  const rows = 20;
+  const cols = 10;
 
-      // Create grid
-      for (let row = 0; row < rows; row++) {
-        grid[row] = [];
-        for (let col = 0; col < cols; col++) {
-          const cell = document.createElement('div');
-          cell.classList.add('cell');
-          grid[row][col] = cell;
-          tetris.appendChild(cell);
+  // Create grid
+  for (let row = 0; row < rows; row++) {
+    grid[row] = [];
+    for (let col = 0; col < cols; col++) {
+      const cell = document.createElement('div');
+      cell.classList.add('cell');
+      grid[row][col] = cell;
+      tetris.appendChild(cell);
+    }
+  }
+
+  // Current piece
+  let currentPiece = null;
+
+  // Game loop
+  let gameInterval = null;
+
+  function startGame() {
+    if (gameInterval) return; // ゲームが既に開始されている場合は何もしない
+
+    startButton.disabled = true;
+    resetButton.disabled = false;
+
+    // ゲームの初期化処理
+    grid = createGrid();
+    currentPiece = createPiece();
+    score = 0;
+
+    gameInterval = setInterval(() => {
+      if (!movePieceDown()) {
+        lockPiece();
+        clearLines();
+        currentPiece = createPiece();
+
+        if (isGameOver()) {
+          clearInterval(gameInterval);
+          gameOver();
         }
       }
+      updateGrid();
+      updateScore();
+    }, 500);
+  }
 
-      // Current piece
-      let currentPiece = null;
+  function resetGame() {
+    startButton.disabled = false;
+    resetButton.disabled = true;
 
-      // Game loop
-      setInterval(() => {
-        if (currentPiece === null) {
-          currentPiece = createPiece();
-        } else {
-          if (!movePieceDown()) {
-            currentPiece = null;
-          }
-        }
-      }, 500);
+    clearInterval(gameInterval);
+    tetris.innerHTML = '';
+
+    // ゲームの初期化処理
+    grid = createGrid();
+    currentPiece = null;
+    score = 0;
+    updateScore();
+  }
+
+  startButton.addEventListener('click', startGame);
+  resetButton.addEventListener('click', resetGame);
+
+  // 以下の関数は先ほどのコードをそのまま使います
+  // ...
+
+});
 
       // Piece functions
       function createPiece() {
@@ -144,40 +185,7 @@ let gameInterval;
 startButton.addEventListener('click', startGame);
 resetButton.addEventListener('click', resetGame);
 
-function startGame() {
-  startButton.disabled = true;
-  resetButton.disabled = false;
 
-  resetGame(); // リセット処理を追加
-
-  gameInterval = setInterval(() => {
-    if (!movePieceDown()) {
-      lockPiece();
-      clearLines();
-      currentPiece = createPiece();
-
-      if (isGameOver()) {
-        clearInterval(gameInterval);
-        gameOver();
-      }
-    }
-    updateGrid();
-    updateScore();
-  }, 500);
-}
-
-
-function resetGame() {
-  startButton.disabled = false;
-  resetButton.disabled = true;
-
-  clearInterval(gameInterval);
-  tetris.innerHTML = '';
-
-  // ゲームの初期化処理
-  grid = [];
-  currentPiece = null;
-}
   </script>
   <button id="start-btn">スタート</button>
   <button id="reset-btn">リセット</button>
