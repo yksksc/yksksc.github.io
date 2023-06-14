@@ -135,6 +135,43 @@
         return false;
       }
     });
+    
+    const startButton = document.getElementById('start-btn');
+const resetButton = document.getElementById('reset-btn');
+
+let gameInterval;
+
+startButton.addEventListener('click', startGame);
+resetButton.addEventListener('click', resetGame);
+
+function startGame() {
+  startButton.disabled = true;
+  resetButton.disabled = false;
+
+  gameInterval = setInterval(() => {
+    if (currentPiece === null) {
+      currentPiece = createPiece();
+    } else {
+      if (!movePieceDown()) {
+        currentPiece = null;
+      }
+    }
+  }, 500);
+}
+
+function resetGame() {
+  startButton.disabled = false;
+  resetButton.disabled = true;
+
+  clearInterval(gameInterval);
+  tetris.innerHTML = '';
+
+  // ゲームの初期化処理
+  grid = [];
+  currentPiece = null;
+}
   </script>
+  <button id="start-btn">スタート</button>
+  <button id="reset-btn">リセット</button>
 </body>
 </html>
