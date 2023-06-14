@@ -44,23 +44,22 @@
   <div class="tetris"></div>
 
   <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const tetris = document.querySelector('.tetris');
-  let grid = [];
-  const rows = 20;
-  const cols = 10;
-
-  // Create grid
+    // Create grid
+function createGrid() {
+  const grid = [];
   for (let row = 0; row < rows; row++) {
     grid[row] = [];
     for (let col = 0; col < cols; col++) {
-      const cell = document.createElement('div');
-      cell.classList.add('cell');
-      grid[row][col] = cell;
-      tetris.appendChild(cell);
+      grid[row][col] = 0;
     }
   }
+  return grid;
+}
 
+    
+document.addEventListener('DOMContentLoaded', () => {
+  const tetris = document.querySelector('.tetris');
+  
   // Current piece
   let currentPiece = null;
 
