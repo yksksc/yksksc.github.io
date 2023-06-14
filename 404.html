@@ -7,15 +7,30 @@
       text-align: center;
     }
   </style>
+  <style>
+    .marquee-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .marquee-container marquee {
+      display: inline-block;
+    }
+  </style>
 </head>
 <body>
   <div>
     <p><font size="10">404 Not Found</font></p>
   </div>
-  <marquee behavior="alternate" direction="up" height="100%" scrollamount="100" truespeed>
-    <marquee direction="right" scrollamount="100" truespeed>
+  <div class="marquee-container">
+    <marquee behavior="scroll" direction="left" scrollamount="10" loop="infinite">
       <img src="rara.jpg">
     </marquee>
-  </marquee>
+    <marquee behavior="scroll" direction="up" scrollamount="10" loop="infinite">
+      <img src="rara.jpg">
+    </marquee>
+  </div>
 </body>
 </html>
