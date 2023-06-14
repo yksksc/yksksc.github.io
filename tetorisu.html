@@ -108,11 +108,16 @@ document.addEventListener('DOMContentLoaded', () => {
     updateScore();
   }
 
-  const startButton = document.getElementById('start-btn');
-  const resetButton = document.getElementById('reset-btn');
+const startButton = document.getElementById('start-btn');
+const resetButton = document.getElementById('reset-btn');
 
-  startButton.addEventListener('click', startGame);
-  resetButton.addEventListener('click', resetGame);
+startButton.addEventListener('click', () => {
+  startGame();
+});
+
+resetButton.addEventListener('click', () => {
+  resetGame();
+});
 
   // 以下の関数は先ほどのコードをそのまま使います
   // ...
