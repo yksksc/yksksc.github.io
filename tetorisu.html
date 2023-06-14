@@ -44,7 +44,7 @@
   <div class="tetris"></div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
   const tetris = document.querySelector('.tetris');
   let grid = [];
   const rows = 20;
@@ -107,6 +107,9 @@
     score = 0;
     updateScore();
   }
+
+  const startButton = document.getElementById('start-btn');
+  const resetButton = document.getElementById('reset-btn');
 
   startButton.addEventListener('click', startGame);
   resetButton.addEventListener('click', resetGame);
