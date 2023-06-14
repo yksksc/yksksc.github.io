@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tetris</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #202020;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    .tetris {
+      display: grid;
+      grid-template-columns: repeat(10, 30px);
+      grid-template-rows: repeat(20, 30px);
+      width: 300px;
+      height: 600px;
+      border: 2px solid #fff;
+    }
+
+    .cell {
+      width: 100%;
+      height: 100%;
+      background-color: #303030;
+      border: 1px solid #fff;
+    }
+
+    .cell.active {
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="tetris"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tetris = document.querySelector('.tetris');
+      const grid = [];
+      const rows = 20;
+      const cols = 10;
+
+      // Create grid
+      for (let row = 0; row < rows; row++) {
+        grid[row] = [];
+        for (let col = 0; col < cols; col++) {
+          const cell = document.createElement('div');
+          cell.classList.add('cell');
+          grid[row][col] = cell;
+          tetris.appendChild(cell);
+        }
+      }
+
+      // Current piece
+      let currentPiece = null;
+
+      // Game loop
+      setInterval(() => {
+        if (currentPiece === null) {
+          currentPiece = createPiece();
+        } else {
+          if (!movePieceDown()) {
+            currentPiece = null;
+          }
+        }
+      }, 500);
+
+      // Piece functions
+      function createPiece() {
+        const piece = [
+          [1, 1, 1, 1],
+        ];
+
+        const pieceElement = document.createElement('div');
+        pieceElement.classList.add('cell', 'active');
+        pieceElement.style.gridColumnStart = 4;
+
+        for (let row = 0; row < piece.length; row++) {
+          for (let col = 0; col < piece[row].length; col++) {
+            if (piece[row][col] === 1) {
+              const cell = document.createElement('div');
+              cell.classList.add('cell', 'active');
+              pieceElement.appendChild(cell);
+            }
+          }
+        }
+
+        tetris.appendChild(pieceElement);
+        return pieceElement;
+      }
+
+      function movePieceDown() {
+        const col = parseInt(currentPiece.style.gridColumnStart);
+        const row = parseInt(currentPiece.style.gridRowStart);
+
+        if (row >= rows - 1) {
+          return false;
+        }
+
+        if (!isCollision(row + 1, col)) {
+          currentPiece.style.gridRowStart = row + 1;
+          return true;
+        }
+
+        return false;
+      }
+
+      function isCollision(row, col) {
+        const cells = currentPiece.getElementsByClassName('cell');
+
+        for (let i = 0; i < cells.length; i++) {
+          const cell = cells[i];
+          const cellRow = row + i;
+          const cellCol = col - 1;
+
+          if (cellRow < 0 || cellRow >= rows || cellCol < 0 || cellCol >= cols) {
+            return true;
+          }
+
+          if (grid[cellRow][cellCol]) {
+            return true;
+          }
+        }
+
+        return false;
+      }
+    });
+  </script>
+</body>
+</html>
