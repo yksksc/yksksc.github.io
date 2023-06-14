@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>クイズゲーム</title>
+</head>
+<body>
+  <h1>クイズゲーム</h1>
+
+  <div id="quiz-container">
+    <p id="question"></p>
+    <ul id="choices"></ul>
+    <button id="submit-btn">回答する</button>
+  </div>
+
+  <div id="result-container" style="display: none;">
+    <h2>結果</h2>
+    <p id="score"></p>
+    <button id="tweet-btn">結果をツイートする</button>
+  </div>
+
+  <script>
+    const quizContainer = document.getElementById('quiz-container');
+    const resultContainer = document.getElementById('result-container');
+    const questionElement = document.getElementById('question');
+    const choicesElement = document.getElementById('choices');
+    const submitButton = document.getElementById('submit-btn');
+    const scoreElement = document.getElementById('score');
+    const tweetButton = document.getElementById('tweet-btn');
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const questions = [
+      {
+        question: 'クイズの質問1',
+        choices: ['選択肢1', '選択肢2', '選択肢3'],
+        correctAnswer: 0
+      },
+      {
+        question: 'クイズの質問2',
+        choices: ['選択肢1', '選択肢2', '選択肢3'],
+        correctAnswer: 1
+      },
+      // 他の質問を追加する
+    ];
+
+    function showQuestion() {
+      const currentQuestion = questions[currentQuestionIndex];
+      questionElement.textContent = currentQuestion.question;
+      choicesElement.innerHTML = '';
+
+      currentQuestion.choices.forEach((choice, index) => {
+        const li = document.createElement('li');
+        li.textContent = choice;
+        li.addEventListener('click', () => {
+          handleAnswer(index);
+        });
+        choicesElement.appendChild(li);
+      });
+    }
+
+    function handleAnswer(selectedIndex) {
+      const currentQuestion = questions[currentQuestionIndex];
+
+      if (selectedIndex === currentQuestion.correctAnswer) {
+        score++;
+      }
+
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex === questions.length) {
+        showResult();
+      } else {
+        showQuestion();
+      }
+    }
+
+    function showResult() {
+      quizContainer.style.display = 'none';
+      resultContainer.style.display = 'block';
+
+      scoreElement.textContent = `あなたのスコアは ${score}/${questions.length} 点です。`;
+      tweetButton.href = `https://twitter.com/intent/tweet?text=私のクイズのスコアは ${score}/${questions.length} 点でした！`;
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>
