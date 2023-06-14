@@ -2,21 +2,43 @@
 <html>
 <head>
   <title>404 Not Found</title>
+  <link rel="stylesheet" href="404.css">
   <style>
     div {
       text-align: center;
     }
-  </style>
-  <style>
-    .marquee-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+
+    .dvd-container {
+      width: 100%;
       height: 100vh;
+      position: relative;
+      overflow: hidden;
     }
 
-    .marquee-container marquee {
-      display: inline-block;
+    .dvd-image {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: dvdAnimation 5s infinite;
+    }
+
+    @keyframes dvdAnimation {
+      0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+      25% {
+        transform: translate(-50%, -50%) rotate(90deg);
+      }
+      50% {
+        transform: translate(-50%, -50%) rotate(180deg);
+      }
+      75% {
+        transform: translate(-50%, -50%) rotate(270deg);
+      }
+      100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
     }
   </style>
 </head>
@@ -24,13 +46,8 @@
   <div>
     <p><font size="10">404 Not Found</font></p>
   </div>
-  <div class="marquee-container">
-    <marquee behavior="scroll" direction="left" scrollamount="10" loop="infinite">
-      <img src="rara.jpg">
-    </marquee>
-    <marquee behavior="scroll" direction="up" scrollamount="10" loop="infinite">
-      <img src="rara.jpg">
-    </marquee>
+  <div class="dvd-container">
+    <img class="dvd-image" src="rara.jpg">
   </div>
 </body>
 </html>
