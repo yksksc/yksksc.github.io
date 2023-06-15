@@ -205,7 +205,7 @@
         // ユーザーが入力した回答のチェック
         function checkAnswer() {
             let userInput = document.getElementById("pokedle-input").value.toUpperCase();
-            var textForm = document.getElementById("form1");
+            var textForm = document.getElementById("pokedle-input");
             textForm.value = '';
             if (userInput.length !== answer.length) {
                 document.getElementById("pokedle-result").innerText = "入力が正しくありません。";
