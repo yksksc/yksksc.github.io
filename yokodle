@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YOKODLE（ヨコドル）</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #FF0000;
+        }
+        
+        .pokedle-container {
+            width: 300px;
+            margin: 0 auto;
+        }
+        
+        .pokedle-input {
+            margin: 10px;
+            padding: 5px;
+            width: 100%;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        .pokedle-button {
+            padding: 10px 20px;
+            background-color: #FF0000;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .pokedle-result {
+            margin: 20px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .pokedle-grid {
+            margin-top: 20px;
+            display: grid;
+            grid-template-rows: repeat(9, 1fr);
+            gap: 5px;
+        }
+        
+        .pokedle-row {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .pokedle-cell {
+            width: 40px;
+            height: 40px;
+            background-color: #FFFFFF;
+            border: 1px solid #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .pokedle-correct {
+            background-color: #00FF00;
+        }
+        
+        .pokedle-match {
+            background-color: #FFFF00;
+        }
+        
+        .pokedle-hidden {
+            display: none;
+        }
+    </style>
+    <script>
+        // ポケモンの名前リスト
+        let pokemonNames = [
+            "リザードン",
+            "イシツブテ",
+            "ルガルガン",
+            "ルンパッパ",
+            "ダークライ"
+            // 他のポケモン名も追加
+        ];
+        
+        // ポケドルの答えをランダムに選択
+        let answer = pokemonNames[Math.floor(Math.random() * pokemonNames.length)];
+        
+        // プレイヤーの回答回数
+        let remainingAttempts = 9;
+        
+        // ユーザーの回答を保持する配列
+        let userGuesses = [];
+        
+        // ユーザーが入力した回答のチェック
+        function checkAnswer() {
+            let userInput = document.getElementById("pokedle-input").value.toUpperCase();
+            
+            if (userInput.length !== answer.length) {
+                document.getElementById("pokedle-result").innerText = "入力が正しくありません。";
+                return;
+            }
+            
+            
+            let masuStatus = "";
+            
+            
+            remainingAttempts--;
+            document.getElementById("pokedle-attempts").innerText = remainingAttempts.toString();
+            
+            let result = "";
+
+            
+
+            let correctIndexes = [];
+            let matchIndexes = [];
+            
+            for (let i = 0; i < answer.length; i++) {
+                if (userInput[i] === answer[i]) {
+                    result += "O";
+                    correctIndexes.push(i);
+                } else if (answer.indexOf(userInput[i]) !== -1) {
+                    result += "X";
+                    matchIndexes.push(i);
+                } else {
+                    result += "-";
+                }
+            }
+
+            for (let i = 0; i < answer.length; i++) {
+                if (userInput[i] === answer[i]) {
+                    masuStatus += "🟩";
+                    correctIndexes.push(i);
+                } else if (answer.indexOf(userInput[i]) !== -1) {
+                    masuStatus += "🟨";
+                    matchIndexes.push(i);
+                } else {
+                    masuStatus += "⬛";
+                }
+            }
+            
+            document.getElementById("pokedle-result").innerText = result;
+            
+            // 回答をマスに入れて表示し、正解に含まれる文字のマスを黄色、正解と一致する文字のマスを緑にする
+            for (let j = 0; j < answer.length; j++) {
+                let cell = document.getElementById("pokedle-cell-" + userGuesses.length + "-" + j);
+                cell.innerText = userInput[j];
+                cell.classList.remove("pokedle-correct", "pokedle-match");
+                
+                if (correctIndexes.indexOf(j) !== -1) {
+                    cell.classList.add("pokedle-correct");
+                } else if (matchIndexes.indexOf(j) !== -1) {
+                    cell.classList.add("pokedle-match");
+                }
+            }
+            
+            // ユーザーの回答を保持
+            userGuesses.push(masuStatus);
+            
+            // ゲームオーバーチェック
+            if (remainingAttempts === 0 || userInput === answer) {
+                document.getElementById("pokedle-input").disabled = true;
+                document.getElementById("pokedle-button").classList.add("pokedle-hidden");
+                document.getElementById("pokedle-twitter").classList.remove("pokedle-hidden");
+            }
+        }
+        
+        // ツイッターで共有
+        function shareOnTwitter() {
+            let masuStatus = "";
+            for (let i = 0; i < userGuesses.length; i++) {
+                masuStatus += userGuesses[i].replaceAll("-", "⬛").replaceAll("O", "🟩").replaceAll("X", "🟨");
+                if (i !== userGuesses.length - 1) {
+                    masuStatus += "\n";
+                }
+            }
+            
+            let tweetText = encodeURIComponent("Yokodle " + (9 - remainingAttempts) + "/9\n\n" + masuStatus + "\n\n#Yokodle");
+            let tweetURL = "https://twitter.com/intent/tweet?text=" + tweetText;
+            window.open(tweetURL);
+        }
+
+        // ページの読み込み時に初期化処理を実行
+        window.onload = function() {
+            // 回答マスの初期化
+            let grid = document.getElementById("pokedle-grid");
+            for (let i = 0; i < 9; i++) {
+                let row = document.createElement("div");
+                row.classList.add("pokedle-row");
+                
+                for (let j = 0; j < 5; j++) {
+                    let cell = document.createElement("div");
+                    cell.id = "pokedle-cell-" + i + "-" + j;
+                    cell.classList.add("pokedle-cell");
+                    row.appendChild(cell);
+                }
+                
+                grid.appendChild(row);
+            }
+            
+            // 回答回数の表示
+            document.getElementById("pokedle-attempts").innerText = remainingAttempts.toString();
+        };
+    </script>
+</head>
+<body>
+    <h1>YOKODLE（ヨコドル）</h1>
+    <div class="pokedle-container">
+        <input type="text" id="pokedle-input" class="pokedle-input" maxlength="5" placeholder="ポケモン名を入力してください">
+        <button onclick="checkAnswer()" class="pokedle-button" id="pokedle-button">チェック</button>
+        <button onclick="shareOnTwitter()" class="pokedle-button pokedle-hidden" id="pokedle-twitter">ツイッターで共有</button>
+        <p id="pokedle-result"></p>
+        <p>残りの回答回数: <span id="pokedle-attempts"></span></p>
+        <div id="pokedle-grid" class="pokedle-grid"></div>
+    </div>
+    <script>
+        // 正解のメッセージを表示
+        function showSuccessMessage() {
+            let successMessage = document.createElement("p");
+            successMessage.innerText = "おめでとうございます！正解です！";
+            document.querySelector(".pokedle-container").appendChild(successMessage);
+        }
+
+        // チェックボタンのクリックイベントを削除
+        document.getElementById("pokedle-button").removeEventListener("click", checkAnswer);
+
+        // 正解時にツイッターボタンを表示
+        if (remainingAttempts === 0 || userInput === answer) {
+            document.getElementById("pokedle-button").classList.add("pokedle-hidden");
+            document.getElementById("pokedle-twitter").classList.remove("pokedle-hidden");
+
+            // 正解メッセージを表示
+            showSuccessMessage();
+        }
+    </script>
+</body>
+</html>
