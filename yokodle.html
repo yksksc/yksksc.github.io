@@ -211,8 +211,15 @@
                 document.getElementById("pokedle-result").innerText = "入力が正しくありません。";
                 return;
             }
-            
-　　　　     text_form.addEventListener('keypress', checkAnswer);
+
+
+            function enter_e(e) {
+  	if (e.keyCode === 13) {
+           checkAnswer()
+    } 
+		return false;
+            }
+　　　　     text_form.addEventListener('keypress', enter_e);
             let masuStatus = "";
             
             
