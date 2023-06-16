@@ -192,7 +192,10 @@
   'セグレイブ', 'コレクレー', 'サーフゴー', 'パオジアン', 'ディンルー',
   'コライドン', 'ミライドン'
 ]
-        
+    　　let text_form = document.getElementById('pokedle-input');
+　　　　let output = document.getElementById('output');
+
+　　　　text_form.addEventListener('keypress', checkAnswer);
         // ポケドルの答えをランダムに選択
         let answer = pokemonNames[Math.floor(Math.random() * pokemonNames.length)];
         
