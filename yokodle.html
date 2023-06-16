@@ -219,7 +219,6 @@
               } 
 	      return false;
             }
-　　　　     text_form.addEventListener('keypress', enter_e);
             let masuStatus = "";
             
             
@@ -227,8 +226,6 @@
             document.getElementById("pokedle-attempts").innerText = remainingAttempts.toString();
             
             let result = "";
-
-            
 
             let correctIndexes = [];
             let matchIndexes = [];
@@ -318,6 +315,8 @@
             }
             
             // 回答回数の表示
+		text_form.addEventListener('keypress', enter_e);
+
             document.getElementById("pokedle-attempts").innerText = remainingAttempts.toString();
         };
     </script>
