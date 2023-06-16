@@ -266,7 +266,16 @@
                     masuStatus += "⬛";
                 }
             }
-            
+            let cells = document.getElementsByClassName("pokedle-cell");
+            for (let i = 0; i < cells.length; i++) {
+                cells[i].classList.add("flip");
+            }
+            setTimeout(function() {
+		    for (var j = 0; j < cells.length; j++) {
+                    cells[j].classList.remove("flip");
+                }
+            }, 500);
+	    
             document.getElementById("pokedle-result").innerText = result;
             
             // 回答をマスに入れて表示し、正解に含まれる文字のマスを黄色、正解と一致する文字のマスを緑にする
