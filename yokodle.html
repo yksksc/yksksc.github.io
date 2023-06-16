@@ -223,12 +223,7 @@
             }
 
 
-            function enter_e(e) {
-  	      if (e.keyCode === 13) {
-                checkAnswer()
-              } 
-	      return false;
-            }
+            
             let masuStatus = "";
             
             
@@ -305,10 +300,17 @@
             let tweetURL = "https://twitter.com/intent/tweet?text=" + tweetText;
             window.open(tweetURL);
         }
-
+function enter_e(e) {
+  	      if (e.keyCode === 13) {
+                checkAnswer()
+              } 
+	      return false;
+            }
         // ページの読み込み時に初期化処理を実行
         window.onload = function() {
             // 回答マスの初期化
+	    		text_form.addEventListener('keypress', enter_e);
+
             let grid = document.getElementById("pokedle-grid");
             for (let i = 0; i < 9; i++) {
                 let row = document.createElement("div");
@@ -325,7 +327,6 @@
             }
             
             // 回答回数の表示
-		text_form.addEventListener('keypress', enter_e);
 
             document.getElementById("pokedle-attempts").innerText = remainingAttempts.toString();
         };
