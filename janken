@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>じゃんけんゲーム</title>
+  <script>
+    // 通貨の初期値を設定
+    var currency = 100;
+    
+    // クッキーに通貨の値を保存する関数
+    function saveCurrency() {
+      document.cookie = "currency=" + currency + "; path=/";
+    }
+    
+    // クッキーから通貨の値を読み込む関数
+    function loadCurrency() {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.indexOf("currency=") === 0) {
+          currency = parseInt(cookie.substring("currency=".length), 10);
+          break;
+        }
+      }
+    }
+    
+    // じゃんけんの実行と通貨の変動
+    function playGame(playerChoice) {
+      // プレイヤーの選択を元にコンピュータの選択を決定
+      var computerChoice = Math.floor(Math.random() * 3) + 1; // 1: グー, 2: チョキ, 3: パー
+      
+      // 勝敗の判定
+      var result;
+      if (playerChoice === computerChoice) {
+        result = "引き分け";
+      } else if (
+        (playerChoice === 1 && computerChoice === 2) ||
+        (playerChoice === 2 && computerChoice === 3) ||
+        (playerChoice === 3 && computerChoice === 1)
+      ) {
+        result = "勝ち";
+        currency += 10; // 勝った場合は通貨を加算
+      } else {
+        result = "負け";
+        currency -= 10; // 負けた場合は通貨を減算
+      }
+      
+      // 結果の表示
+      document.getElementById("result").innerHTML = "結果: " + result;
+      document.getElementById("currency").innerHTML = "通貨: " + currency;
+      
+      // 通貨の保存
+      saveCurrency();
+    }
+    
+    // ページ読み込み時にクッキーから通貨を読み込む
+    window.onload = function() {
+      loadCurrency();
+      document.getElementById("currency").innerHTML = "通貨: " + currency;
+    };
+  </script>
+</head>
+<body>
+  <h1>じゃんけんゲーム</h1>
+  
+  <div id="result"></div>
+  <div id="currency"></div>
+  
+  <button onclick="playGame(1)">グー</button>
+  <button onclick="playGame(2)">チョキ</button>
+  <button onclick="playGame(3)">パー</button>
+</body>
+</html>
