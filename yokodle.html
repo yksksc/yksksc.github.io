@@ -193,7 +193,6 @@
   'コライドン', 'ミライドン'
 ]
     　　let text_form = document.getElementById('pokedle-input');
-　　　　text_form.addEventListener('keypress', checkAnswer);
         // ポケドルの答えをランダムに選択
         let answer = pokemonNames[Math.floor(Math.random() * pokemonNames.length)];
         
@@ -213,7 +212,7 @@
                 return;
             }
             
-            
+　　　　     text_form.addEventListener('keypress', checkAnswer);
             let masuStatus = "";
             
             
