@@ -76,6 +76,39 @@
             display: none;
         }
     </style>
+	<body>
+    <h1>YOKODLE（ヨコドル）</h1>
+    <div class="pokedle-container">
+        <input type="text" id="pokedle-input" class="pokedle-input" maxlength="5" placeholder="ポケモン名を入力してください">
+        <button onclick="checkAnswer()" class="pokedle-button" id="pokedle-button">チェック</button>
+        <button onclick="shareOnTwitter()" class="pokedle-button pokedle-hidden" id="pokedle-twitter">ツイッターで共有</button>
+        <p class="pokedle-button pokedle-hidden" id="kotae"></p>
+        <p id="pokedle-result"></p>
+        <p>残りの回答回数: <span id="pokedle-attempts"></span></p>
+        <div id="pokedle-grid" class="pokedle-grid"></div>
+    </div>
+    <script>
+        // 正解のメッセージを表示
+        function showSuccessMessage() {
+            let successMessage = document.createElement("p");
+            successMessage.innerText = "おめでとうございます！正解です！";
+            document.querySelector(".pokedle-container").appendChild(successMessage);
+        }
+
+        // チェックボタンのクリックイベントを削除
+        document.getElementById("pokedle-button").removeEventListener("click", checkAnswer);
+
+        // 正解時にツイッターボタンを表示
+        if (remainingAttempts === 0 || userInput === answer) {
+            document.getElementById("pokedle-button").classList.add("pokedle-hidden");
+            document.getElementById("pokedle-twitter").classList.remove("pokedle-hidden");
+            document.getElementById("kotae").classList.remove("pokedle-hidden");
+
+            // 正解メッセージを表示
+            showSuccessMessage();
+        }
+    </script>
+</body>
     <script>
         // ポケモンの名前リスト
         let pokemonNames = [
@@ -321,37 +354,5 @@
         };
     </script>
 </head>
-<body>
-    <h1>YOKODLE（ヨコドル）</h1>
-    <div class="pokedle-container">
-        <input type="text" id="pokedle-input" class="pokedle-input" maxlength="5" placeholder="ポケモン名を入力してください">
-        <button onclick="checkAnswer()" class="pokedle-button" id="pokedle-button">チェック</button>
-        <button onclick="shareOnTwitter()" class="pokedle-button pokedle-hidden" id="pokedle-twitter">ツイッターで共有</button>
-        <p class="pokedle-button pokedle-hidden" id="kotae"></p>
-        <p id="pokedle-result"></p>
-        <p>残りの回答回数: <span id="pokedle-attempts"></span></p>
-        <div id="pokedle-grid" class="pokedle-grid"></div>
-    </div>
-    <script>
-        // 正解のメッセージを表示
-        function showSuccessMessage() {
-            let successMessage = document.createElement("p");
-            successMessage.innerText = "おめでとうございます！正解です！";
-            document.querySelector(".pokedle-container").appendChild(successMessage);
-        }
 
-        // チェックボタンのクリックイベントを削除
-        document.getElementById("pokedle-button").removeEventListener("click", checkAnswer);
-
-        // 正解時にツイッターボタンを表示
-        if (remainingAttempts === 0 || userInput === answer) {
-            document.getElementById("pokedle-button").classList.add("pokedle-hidden");
-            document.getElementById("pokedle-twitter").classList.remove("pokedle-hidden");
-            document.getElementById("kotae").classList.remove("pokedle-hidden");
-
-            // 正解メッセージを表示
-            showSuccessMessage();
-        }
-    </script>
-</body>
 </html>
