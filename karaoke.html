@@ -41,12 +41,14 @@
     }
 
     function startKaraoke() {
-  var videoPlayer = document.getElementById('video-player');
-  videoPlayer.src = URL.createObjectURL(document.getElementById('upload-btn').files[0]);
+  var audioPlayer = new Audio();
+  audioPlayer.src = URL.createObjectURL(document.getElementById('upload-btn').files[0]);
+  
+  // audio要素の再生を開始
+  audioPlayer.play();
+
   
   // videoPlayer要素の再生を開始
-  videoPlayer.play();
-
   // 以下の部分は省略...
 
       navigator.mediaDevices.getUserMedia({ audio: true })
