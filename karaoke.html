@@ -47,18 +47,43 @@
   // audio要素の再生を開始
   audioPlayer.play();
 
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(function (micStream) {
+      stream = micStream;
+      var audioInput = audioContext.createMediaStreamSource(micStream);
+      var audioProcessor = audioContext.createScriptProcessor(4096, 1, 1);
+      var echoDelay = 0.5; // エコーの遅延時間（秒）
+      var echoGain = 0.4; // エコーの音量調整
+
+      audioProcessor.onaudioprocess = function (e) {
+        var inputData = e.inputBuffer.getChannelData(0);
+        var outputData = e.outputBuffer.getChannelData(0);
+        
+        // 利用者の声を拡大
+        for (var i = 0; i < inputData.length; i++) {
+          outputData[i] = inputData[i] * 2; // 倍音する例示
+        }
+
+        // エコーをかける
+        var sampleRate = audioContext.sampleRate;
+        var delaySamples = Math.floor(sampleRate * echoDelay);
+        for (var i = delaySamples; i < inputData.length; i++) {
+          outputData[i] += inputData[i - delaySamples] * echoGain;
+        }
+      };
+
+      audioInput.connect(audioProcessor);
+      audioProcessor.connect(audioContext.destination);
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+}
+
+
   
   // videoPlayer要素の再生を開始
   // 以下の部分は省略...
-
-      navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(function (micStream) {
-          stream = micStream;
-          var audioInput = audioContext.createMediaStreamSource(micStream);
-          var audioProcessor = audioContext.createScriptProcessor(4096, 1, 1);
-
-          audioProcessor.onaudioprocess = function (e) {
-            var inputData = e.inputBuffer.getChannelData(0);
             // ここで音声データの数値化処理を行う
             // 音声データの数値化処理
 function processAudioData(inputData) {
@@ -98,29 +123,6 @@ audioProcessor.onaudioprocess = function (e) {
   // 得点を表示する
   document.getElementById('score').textContent = 'Score: ' + score;
 };
-
-            // 音声データを曲の高さと比較して点数を計算する
-
-            // ポイントの加算などの処理
-
-            // 得点を表示する
-            document.getElementById('score').textContent = 'Score: ' + score;
-          };
-
-          audioInput.connect(audioProcessor);
-          audioProcessor.connect(audioContext.destination);
-        })
-        .catch(function (err) {
-          console.error(err);
-        });
-
-      // マイクからの音声にエコー効果をかける
-      var audioSource = audioContext.createMediaElementSource(document.getElementById('video-player'));
-      var echoNode = audioContext.createDelay();
-      echoNode.delayTime.value = 0.5; // エコーの遅延時間（秒）
-      audioSource.connect(echoNode);
-      echoNode.connect(audioContext.destination);
-    }
   </script>
 </body>
 </html>
