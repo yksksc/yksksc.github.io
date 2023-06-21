@@ -41,55 +41,50 @@
     }
 
     function startKaraoke() {
-  var audioPlayer = new Audio();
-  audioPlayer.src = URL.createObjectURL(document.getElementById('upload-btn').files[0]);
+      var audioPlayer = new Audio();
+      audioPlayer.src = URL.createObjectURL(document.getElementById('upload-btn').files[0]);
 
-  // 音声再生用の処理
-  audioPlayer.oncanplaythrough = function () {
-    audioPlayer.play();
-    startMicrophone();
-  };
+      // 音声再生用の処理
+      audioPlayer.oncanplaythrough = function () {
+        audioContext.resume().then(function () {
+          audioPlayer.play();
+          startMicrophone();
+        });
+      };
 
-  function startMicrophone() {
-    navigator.mediaDevices.getUserMedia({ audio: true })
-      .then(function (micStream) {
-        stream = micStream;
-        var audioInput = audioContext.createMediaStreamSource(micStream);
-        var audioProcessor = audioContext.createScriptProcessor(4096, 1, 1);
-        var echoDelay = 0.5; // エコーの遅延時間（秒）
-        var echoGain = 0.4; // エコーの音量調整
+      function startMicrophone() {
+        if (!audioContext.audioWorklet) {
+          console.error('AudioWorkletNode is not supported in this browser.');
+          return;
+        }
 
-        audioProcessor.onaudioprocess = function (e) {
-          var inputData = e.inputBuffer.getChannelData(0);
-          var outputData = e.outputBuffer.getChannelData(0);
+        audioContext.audioWorklet.addModule('script-processor.js')
+          .then(function () {
+            var audioProcessor = new AudioWorkletNode(audioContext, 'script-processor');
+            var audioInput = audioContext.createMediaStreamSource(stream);
+            var audioOutput = audioContext.createMediaStreamDestination();
+            var audioStream = audioOutput.stream;
 
-          // 利用者の声を拡大
-          for (var i = 0; i < inputData.length; i++) {
-            outputData[i] = inputData[i] * 2; // 倍音する例示
-          }
+            audioInput.connect(audioProcessor);
+            audioProcessor.connect(audioOutput);
 
-          // エコーをかける
-          var sampleRate = audioContext.sampleRate;
-          var delaySamples = Math.floor(sampleRate * echoDelay);
-          for (var i = delaySamples; i < inputData.length; i++) {
-            outputData[i] += inputData[i - delaySamples] * echoGain;
-          }
-        };
+            // 音声の拡大とエコー処理はオーディオワークレットで行われるため、ここでは不要です。
 
-        audioInput.connect(audioProcessor);
-        audioProcessor.connect(audioContext.destination);
-      })
-      .catch(function (err) {
-        console.error(err);
-      });
-  }
+            // オーディオ要素に出力ストリームを接続して再生する
+            var audioPlayer = new Audio();
+            audioPlayer.srcObject = audioStream;
+            audioPlayer.play();
+          })
+          .catch(function (err) {
+            console.error(err);
+          });
+      }
 
-  // デバッグ情報の出力
-  console.log('Audio Context: ', audioContext.state);
-  console.log('Audio Player: ', audioPlayer.readyState);
-  console.log('Microphone Stream: ', stream);
-}
-
+      // デバッグ情報の出力
+      console.log('Audio Context: ', audioContext.state);
+      console.log('Audio Player: ', audioPlayer.readyState);
+      console.log('Microphone Stream: ', stream);
+    }
 
 
   
