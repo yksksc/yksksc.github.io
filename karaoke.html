@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Karaoke</title>
+  <style>
+    /* スタイルの設定 */
+    #container {
+      text-align: center;
+      padding-top: 50px;
+    }
+
+    #upload-btn {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Karaoke</h1>
+    <input type="file" id="upload-btn" accept="audio/mp4">
+    <button onclick="chooseFile()">Choose File</button>
+    <br>
+    <br>
+    <button onclick="startKaraoke()">Start Karaoke</button>
+    <br>
+    <br>
+    <div id="score"></div>
+    <br>
+    <br>
+    <video id="video-player" width="640" height="480" controls></video>
+  </div>
+
+  <script>
+    var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    var mediaRecorder;
+    var chunks = [];
+    var stream;
+
+    function chooseFile() {
+      document.getElementById('upload-btn').click();
+    }
+
+    function startKaraoke() {
+      document.getElementById('video-player').src = URL.createObjectURL(document.getElementById('upload-btn').files[0]);
+      document.getElementById('video-player').play();
+
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(function (micStream) {
+          stream = micStream;
+          var audioInput = audioContext.createMediaStreamSource(micStream);
+          var audioProcessor = audioContext.createScriptProcessor(4096, 1, 1);
+
+          audioProcessor.onaudioprocess = function (e) {
+            var inputData = e.inputBuffer.getChannelData(0);
+            // ここで音声データの数値化処理を行う
+            // 音声データの数値化処理
+function processAudioData(inputData) {
+  var sum = 0;
+  for (var i = 0; i < inputData.length; i++) {
+    sum += Math.abs(inputData[i]);
+  }
+  var average = sum / inputData.length;
+  // 例: 数値化されたデータを利用して何らかの処理を行う
+
+  return average;
+}
+
+// 点数の計算
+function calculateScore(songData, voiceData) {
+  // 例: 曲のデータと歌声のデータを比較して点数を計算する
+  var score = 0;
+  for (var i = 0; i < songData.length; i++) {
+    if (Math.abs(songData[i] - voiceData[i]) <= threshold) {
+      score++;
+    }
+  }
+  return score;
+}
+
+// グローバル変数として曲データを保持する配列
+var songData = [];
+
+// マイクからの音声処理
+audioProcessor.onaudioprocess = function (e) {
+  var inputData = e.inputBuffer.getChannelData(0);
+  var voiceData = processAudioData(inputData);
+  var score = calculateScore(songData, voiceData);
+
+  // ポイントの加算などの処理
+
+  // 得点を表示する
+  document.getElementById('score').textContent = 'Score: ' + score;
+};
+
+            // 音声データを曲の高さと比較して点数を計算する
+
+            // ポイントの加算などの処理
+
+            // 得点を表示する
+            document.getElementById('score').textContent = 'Score: ' + score;
+          };
+
+          audioInput.connect(audioProcessor);
+          audioProcessor.connect(audioContext.destination);
+        })
+        .catch(function (err) {
+          console.error(err);
+        });
+
+      // マイクからの音声にエコー効果をかける
+      var audioSource = audioContext.createMediaElementSource(document.getElementById('video-player'));
+      var echoNode = audioContext.createDelay();
+      echoNode.delayTime.value = 0.5; // エコーの遅延時間（秒）
+      audioSource.connect(echoNode);
+      echoNode.connect(audioContext.destination);
+    }
+  </script>
+</body>
+</html>
