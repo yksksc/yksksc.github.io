@@ -43,42 +43,48 @@
     function startKaraoke() {
   var audioPlayer = new Audio();
   audioPlayer.src = URL.createObjectURL(document.getElementById('upload-btn').files[0]);
-  
-  // audio要素の再生を開始
-  audioPlayer.play();
 
-  navigator.mediaDevices.getUserMedia({ audio: true })
-    .then(function (micStream) {
-      stream = micStream;
-      var audioInput = audioContext.createMediaStreamSource(micStream);
-      var audioProcessor = audioContext.createScriptProcessor(4096, 1, 1);
-      var echoDelay = 0.5; // エコーの遅延時間（秒）
-      var echoGain = 0.4; // エコーの音量調整
+  // 音声再生用の処理
+  audioPlayer.oncanplaythrough = function () {
+    audioPlayer.play();
+    startMicrophone();
+  };
 
-      audioProcessor.onaudioprocess = function (e) {
-        var inputData = e.inputBuffer.getChannelData(0);
-        var outputData = e.outputBuffer.getChannelData(0);
-        
-        // 利用者の声を拡大
-        for (var i = 0; i < inputData.length; i++) {
-          outputData[i] = inputData[i] * 2; // 倍音する例示
-        }
+  function startMicrophone() {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(function (micStream) {
+        stream = micStream;
+        var audioInput = audioContext.createMediaStreamSource(micStream);
+        var audioProcessor = audioContext.createScriptProcessor(4096, 1, 1);
+        var echoDelay = 0.5; // エコーの遅延時間（秒）
+        var echoGain = 0.4; // エコーの音量調整
 
-        // エコーをかける
-        var sampleRate = audioContext.sampleRate;
-        var delaySamples = Math.floor(sampleRate * echoDelay);
-        for (var i = delaySamples; i < inputData.length; i++) {
-          outputData[i] += inputData[i - delaySamples] * echoGain;
-        }
-      };
+        audioProcessor.onaudioprocess = function (e) {
+          var inputData = e.inputBuffer.getChannelData(0);
+          var outputData = e.outputBuffer.getChannelData(0);
 
-      audioInput.connect(audioProcessor);
-      audioProcessor.connect(audioContext.destination);
-    })
-    .catch(function (err) {
-      console.error(err);
-    });
+          // 利用者の声を拡大
+          for (var i = 0; i < inputData.length; i++) {
+            outputData[i] = inputData[i] * 2; // 倍音する例示
+          }
+
+          // エコーをかける
+          var sampleRate = audioContext.sampleRate;
+          var delaySamples = Math.floor(sampleRate * echoDelay);
+          for (var i = delaySamples; i < inputData.length; i++) {
+            outputData[i] += inputData[i - delaySamples] * echoGain;
+          }
+        };
+
+        audioInput.connect(audioProcessor);
+        audioProcessor.connect(audioContext.destination);
+      })
+      .catch(function (err) {
+        console.error(err);
+      });
+  }
 }
+
 
 
   
