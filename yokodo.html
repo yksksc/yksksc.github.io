@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Yokodo</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 150vh;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    #score-section {
+      font-size: 30px;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    #quiz-container {
+      text-align: center;
+    }
+    
+    .hidden-character {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      border: 1px solid black;
+      background-color: red;
+      color: #fff;
+      line-height: 50px;
+      text-align: center;
+      z-index: 1;
+    }
+    
+    .visible-character {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      border: 1px solid black;
+      background-color: #EEE;
+      color: #000;
+      line-height: 50px;
+      text-align: center;
+    }
+    
+    .hidden-character:before {
+      content: attr(data-index);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+      background-color: rgb(255, 0, 0);
+    }
+    
+    #quiz-text {
+      font-size: 24px;
+      margin-bottom: 10px;
+      white-space: nowrap;
+    }
+
+    #quiz-text span:nth-child(6n)::after {
+      content: "";
+      display: block;
+    }
+    
+    #answer-input {
+      font-size: 18px;
+      padding: 5px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    
+    #result-section {
+      font-size: 30px;
+      padding: 5px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    #submit-button {
+      font-size: 18px;
+      padding: 5px 10px;
+      text-align: center;
+    }
+
+    #tweet-section {
+      display: none;
+      text-align: center;
+    }
+
+    .tweet-button {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1 id="quiz-container">Yokodo</h1>
+    <p id="quiz-container">隠れている問題文。<br>あなたは数字をクリックして問題文を表示できます。<br>なるべくクリックせずに問題の答えを当てましょう。<br>回答は何回でもできます。</p>
+    <div id="score-section"></div>
+    <div id="quiz-text"></div>
+    <div id="answer-section">
+      <input type="text" id="answer-input" placeholder="回答を入力してください" onkeydown="handleKeyDown(event)">
+      <button id="submit-button" onclick="checkAnswer()">回答する</button>
+    </div>
+    <div id="result-section"></div>
+    <div id="tweet-section">
+      <a id="tweet-link" class="tweet-button" href="https://twitter.com/intent/tweet" target="_blank">ツイートする</a>
+    </div>
+  </div>
+
+  <script>
+    // クイズの文のリスト
+    class quiz {
+        0 = [ { q: "CO2という気体は漢字5文字で何と書く？" , a: "二酸化炭素"} ];
+        1 = [ { q: "太陽系にある唯一の恒星を一般的に漢字2文字で何と呼ぶ？" , a: "太陽"} ]
+        2 = [ { q: "1600年の徳川家康と石田三成の戦いを一般的に〇〇〇の戦いと呼ぶが〇〇〇に入る漢字3文字を書け" , a: "関ヶ原"} ]
+        3 = [ { q: "植物が栄養を光から作り出すことを漢字3文字で何と書く？" , a: "光合成"} ]
+
+        // 他のクイズの文を追加
+    }
+    const quizList = new quiz()
+    // ランダムな問題文のインデックスを取得
+    let randomIndex = Math.floor(Math.random() * Object.keys(quizList).length);
+    console.log(randomIndex)
+    // 選択された問題文
+    let selectedQuiz = quizList[randomIndex][0].q
+    console.log(selectedQuiz)
+    
+    // 問題文の文字数
+    let quizLength = selectedQuiz.length;
+    let totalCharactersPressed = quizLength
+    // 初期化
+    let hiddenCharacters = quizLength;
+    let quizTextElement = document.getElementById("quiz-text");
+    let answerInputElement = document.getElementById("answer-input");
+    let resultSectionElement = document.getElementById("result-section");
+    let tweetSectionElement = document.getElementById("tweet-section");
+    let scoreSectionElement = document.getElementById("score-section");
+    let tweetLinkElement = document.getElementById("tweet-link");
+    scoreSectionElement.textContent = totalCharactersPressed + "/" + quizLength
+    // 問題文の各文字を□で表示
+    let result = []
+    for (let i = 0; i < quizLength; i++) {
+      result[result.length] = "🟥"
+      let hiddenCharacter = document.createElement("span");
+      hiddenCharacter.classList.add("hidden-character");
+      hiddenCharacter.setAttribute("data-index", i + 1);
+      hiddenCharacter.textContent = selectedQuiz.split(``)[i];
+      quizTextElement.appendChild(hiddenCharacter);
+
+      if ((i + 1) % 6 === 0) {
+        quizTextElement.appendChild(document.createElement("br"));
+      }
+    }
+
+    // □を押すことで文字を表示
+    quizTextElement.addEventListener("click", function(event) {
+      if (event.target.classList.contains("hidden-character")) {
+        event.target.classList.remove("hidden-character");
+        event.target.classList.add("visible-character");
+        let characterIndex = event.target.getAttribute("data-index");
+        result.slice(Number(characterIndex) - 1,1)
+        result[Number(characterIndex)-1] = "⬜"
+        hiddenCharacters--;
+        totalCharactersPressed--;
+        scoreSectionElement.textContent = totalCharactersPressed + "/" + quizLength
+      }
+    });
+
+    // 回答のチェック
+    function handleKeyDown(event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // デフォルトのエンターキーの挙動をキャンセル        
+            // ここにエンターキーが押された時の処理を記述する
+            checkAnswer();
+        }
+    }
+
+    function checkAnswer() {
+      let userAnswer = answerInputElement.value.trim();
+
+      // 回答が正解かどうかチェック
+      if (userAnswer === quizList[randomIndex][0].a) {
+        resultSectionElement.textContent = "正解！";
+        answerInputElement.disabled = true;
+        document.getElementById("submit-button").disabled = true;
+        let hiddenCharactersElements = document.getElementsByClassName("hidden-character");
+        while (hiddenCharactersElements.length > 0) {
+          hiddenCharactersElements[0].classList.add("visible-character");
+          hiddenCharactersElements[0].classList.remove("hidden-character");
+        }
+
+        // 正解した場合、ツイートボタンを表示
+        tweetSectionElement.style.display = "block";
+      } else {
+        resultSectionElement.textContent = "不正解！";
+        answerInputElement.value = "";
+      }
+
+      // ツイート内容の作成
+      for (let i = 0; i < result.length; i++) {
+        if (i % 6 === 0 && i !== 0) {
+            result[i] = "\n" + result[i]
+        }
+      }
+      console.log(result)
+      let tweetText = "スコア：" + totalCharactersPressed + "/" + quizLength + "\n\n" + result.join(``) + "\n\n#Yokodo";
+
+      // ツイートボタンのリンク先を設定
+      tweetLinkElement.href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText);
+    }
+  </script>
+</body>
+</html>
