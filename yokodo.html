@@ -64,10 +64,6 @@
       text-align: center;
     }
 	    
-    .hidden-character:hover {
-      background-color: #ac0202;
-    }
-    
     .hidden-character:before {
       content: attr(data-index);
       position: absolute;
@@ -84,6 +80,9 @@
       background-color: rgb(255, 0, 0);
     }
     
+    .hidden-character:before:hover {
+      background-color: #ac0202;
+    }
     #quiz-text {
       font-size: 30px;
       margin-bottom: 10px;
@@ -203,9 +202,7 @@
       line-height: 75px;
       text-align: center;
     }
-    .hidden-character:hover {
-    background-color: #ac0202;
-  }
+	
     .hidden-character:before {
       content: attr(data-index);
       position: absolute;
@@ -221,7 +218,11 @@
       z-index: 2;
       background-color: rgb(255, 0, 0);
     }
-    
+
+    .hidden-character:before:hover {
+      background-color: #ac0202;
+    }
+	
     #quiz-text {
       font-size: 55px;
       margin-bottom: 10px;
