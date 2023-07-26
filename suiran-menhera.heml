@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="src/css/common.css">
+        <title>ホーム | 横高科学部ラノベ班</title>
+    </head>
+    <body>
+        <!-- 
+                                             ..(gAXMMMHG+,.
+                                           .J9^   .....    ?YN,
+                                         .#^ ..V""7??7"""Ha,. ?N,
+                                       .M^ .V'             .Ta. Wx
+                                      .M' (^                 .W, W,
+                                      .F J^                   .N..N
+                                      v .F                     .) M]
+                                     .] d~                      l J]
+                                      n d;                      f d]
+                                      X.,b          Nc          \ M]
+                                      ([ j;        ."N.        Jt.M 
+                                      .H..0        V ,]       .f -%
+                                       ,p .l      .F ,]       (!.#
+                                        Mp ?;     ,Nggb      .P d^
+                                         Wx.r     ,F  H      Wij$
+                              .+gWMMNa,.  M:      ,F  M       (P   ..WMMNg,.
+                           .+B^ .......WT""9""""YY"3  """""9""""9W@!...., .TN,
+                          .#! .#"    ?N,                         .R=!   _4.  Tp
+                         .F   d[       ("HM: .#""""""""T""M]  M@7^      .J'   W[
+                        .H     _7+..      d! ,Nggggg&+++++d]  H       .J=  .  .#
+                        -# .M"95-. ?6.,   d~                  M    .k" ..77?8 .#
+                        .# .@    ?Ya, ?7G.d~ .K"""""9"TYT7U]  M .x@! .M"    , .#
+                         M. H,      .TN,..M~ ,N.JJ-JJ(J...g%  HT= .J"      .F J^
+                         ,h. 7a.       .TBN_                  H.v"!       .F .%
+                          (N,..Ua..       M~ .NMMWMMMMMMMMN]  g!       ..@^.K=
+                            .YQ, .7TM"Tm..M~ ,b...........-F  N...#=WK=!..#"
+                      ...+JJJJJMMN(JD  ?""^  ."""""""""""""!  ("7=  .W+gggJJJJJJJ..
+               ..JNTH"     ....  .=(#  ..........................J  .KU}  .....    ?TBW&,.
+            ..M"^ ...-vT""7! ?7"""!.@ .M!  dA+             (MWb  z  (@?7""""""""""9Ua-. ?TN&.
+          .dD!..JY!                .# .M! .: .M9TTWHHHMMHHY= .M  j  ,N                ??4J..Tk.
+         .@ ..Y                  ..dF .M~ d:     ....... ...  M  w   MN+.                 Th.,H,
+        .F .#                  .#= .@ .M~ d~ .M"""""""""""4F  M  (   N  ?S,.               .M, Mp
+       ,F .{                .g" ..THF .M~ Z~ ,NJ-...(gJ(..M$  M  ,.  HTU-..7h,               W, W[
+       M$ M^              .gMJ7"!  .b .M! .N,                -@  Jh,.F   ?7GJMN,             ,b ,L
+       M  N              ,"=        7TT^  .2WMM"""TM"WMHB""M"N.    7^         ?7'            ,P ,#!
+       M, H                          .ga,.,',]     W-.!    H -b..J4,                         ,b .F
+       d] w,                         d  M"M_,F     X.(!    j -M"W] W,                        J^ d>
+       .N. n                       .J .g  .;.L     Z_(_    f -#  W, Ux                      .[ (#
+        (N.,h                     .P .M'  ,N,(x    X_(    ,' M$   Ua.?N,                   .@ .#!
+         ,N..4,                 .#^.J@     ,N,,S...K ....,^ d\     ?M, ?N,               .d$ .M 
+          .4J .Tm,.         ..."!.(#^       .Te..?7    ~  .M^        ?Ba, "O.,       ..JY^ .d"
+            ?Ha,  ?""TUUVYY"! ..Z"            .TBg-....JH#=             ?9a,._"""""""!  .JB^
+               ?TBQ&......JNY"^                    !~~                     .7"BWQgNNkwY"^
+                    _!!~! 
+         -->
+        <main>
+            <div id="header_image_group">
+                <div id="header_image_outer" class="slideshow">
+                    <!-- ここの画像は上から順にスライドショーで表示される。画像を追加/削除してもJavaScriptの変更は不要。
+                        画像1枚あたりの表示時間を変えたい場合はJavaScriptの定数で調整 -->
+                    <img src="src/img/electronic_microscope.jpg" alt="電子顕微鏡">
+                    <img src="src/img/electronic_microscope2.jpg" alt="電子顕微鏡">
+                    <img src="src/img/gas_burner.jpg" alt="ガスバーナー">
+                    <img src="src/img/telescope.jpg" alt="天体望遠鏡">
+                    <img src="src/img/sanshouo.jpg" alt="トウキョウサンショウウオ">
+                </div>
+            </div>
+            <iframe src="https://docs.google.com/document/d/e/2PACX-1vT9sny-hoY6AMJuMvezHN1raN6dVG_uqin6YqWPnTOjeefCSKz2PJbaVaq0iUSw_0ZleGaut4RZy44K/pub?embedded=true"></iframe>
+            <section>
+                <h2 class="slide_in" data-delighter>横須賀高校について</h2>
+                <div id="youtube_outer" class="slide_up" data-delighter>
+                    <div id="youtube_inner">
+                        <iframe src="https://www.youtube-nocookie.com/embed/QB4Zoh3wK_Q" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <blockquote class="slide_up" data-delighter>
+                    <p>
+                        「自学自習・自主自律」の伝統の下、文部科学省より「スーパーサイエンスハイスクール(SSH)」の指定を受け、神奈川県より「学力向上進学重点エントリー校」、「理数教育推進校」の指定を受けました。現在、高い能力を持った生徒達が日々学習に励んでおります。
+                    </p>
+                    <p class="reference">
+                        <a href="https://www.pen-kanagawa.ed.jp/yokosuka-h/zennichi/gaiyou/index.html" target="_blank">横須賀高校学校概要</a>より
+                    </p>
+                </blockquote>
+            </section>
+            <figure class="dynamic_header_image">
+                <img src="src/img/paradise.jpg" alt="パラダイス" class="fade_in" data-delighter>
+                <figcaption class="fade_in" data-delighter>
+                    科学部、それは<ruby>楽園<rt>パラダイス</rt></ruby>—
+                </figcaption>
+            </figure>
+            <section>
+                <p class="slide_up" data-delighter>
+                    科学部では部員がそれぞれの得意分野で生き生きと活動しています。
+                </p>
+                <p></p>
+                <h2 class="slide_in" data-delighter>部員の声</h2>
+                <blockquote class="slide_up" data-delighter>
+                    <p>
+                        毎日が非常に楽しく、満足しています。科学部に入ってから友だちが増え、お小遣いが増えて、彼女も増え、隠さなければいけないテストの枚数も増えました。最高です。
+                    </p>
+                    <p class="reference">
+                        匿名部員
+                    </p>
+                </blockquote>
+                <blockquote class="slide_up" data-delighter>
+                    <p>
+                        部活動中に歌を歌ったり、アニメを鑑賞したり非常に充実した毎日を送っています。
+                    </p>
+                    <p class="reference">
+                        部員B
+                    </p>
+                </blockquote>
+            </section>
+            <section id="about_group">
+                <h2 class="slide_in" data-delighter>科学部の構成</h2>
+                <p class="slide_up" data-delighter>
+                    科学部は<strong>情報班</strong>、<strong>化学班</strong>、<strong>生物班</strong>、<strong>ラノベ班</strong>に分かれていて、部員がそれぞれの得意分野で生き生きと活動しています。
+                </p>
+            </section>
+            <figure class="dynamic_header_image group_introduction">
+                <img src="src/img/laptop.jpg" alt="イメージ" class="fade_in" data-delighter>
+                <figcaption class="fade_in" data-delighter>
+                    - 情報班 -
+                    <p>
+                        情報班では、ゲーム制作を含むプログラミングや動画編集、イラスト制作などPC全般の活動を行っています。
+                    </p>
+                </figcaption>
+            </figure>
+            <figure class="dynamic_header_image group_introduction">
+                <img src="src/img/gas_burner2.jpg" alt="イメージ" class="fade_in" data-delighter>
+                <figcaption class="fade_in" data-delighter>
+                    - 化学班 -
+                    <p>
+                        化学班では化学の実験をしています。
+                    </p>
+                </figcaption>
+            </figure>
+            <figure class="dynamic_header_image group_introduction">
+                <img src="src/img/sanshouo2.jpg" alt="イメージ" class="fade_in" data-delighter>
+                <figcaption class="fade_in" data-delighter>
+                    - 生物班 -
+                    <p>
+                        生物班では、絶滅危惧種のトウキョウサンショウウオの保護活動や生き物の飼育などを行っています。
+                    </p>
+                </figcaption>
+            </figure>
+            <figure class="dynamic_header_image group_introduction">
+                <img src="src/img/gas_burner2.jpg" alt="イメージ" class="fade_in" data-delighter>
+                <figcaption class="fade_in" data-delighter>
+                    - ラノベ班 -
+                    <p>
+                        ラノベ班ではラノベを書いています。
+                    </p>
+                </figcaption>
+            </figure>
+            <section>
+                <h2 class="slide_in" data-delighter>科学部公式Twitter</h2>
+                <div class="slide_up twitter_timeline_outer" data-delighter>
+                    <a class="twitter-timeline" data-width="100%" data-height="800%" href="https://twitter.com/YH_scienceclub?ref_src=twsrc%5Etfw">Tweets by YH_scienceclub</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+            </section>
+            <style>
+                #youtube_outer {
+                    width: 100%;
+                    padding:0 calc((100vw - 100vmin) / 2);
+                    margin: 10vmin 0;
+                }
+
+                #youtube_inner {
+                    width: 100%;
+                    padding-bottom: 56.25%;
+                    position: relative;
+                    top: 0;
+                    left: 0;
+                }
+
+                #youtube_outer iframe {
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                }
+
+                .dynamic_header_image {
+                    width: 100vw;
+                    height: 0;
+                    padding-bottom: 40%;
+                    position: relative;
+                    top: 0;
+                    left: 0;
+                }
+
+                .dynamic_header_image img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    filter: brightness(0.8);
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                }
+
+                .dynamic_header_image figcaption,
+                .dynamic_header_image figcaption * {
+                    font-family: "Noto Serif JP", serif;
+                    color: white;
+                    font-size: 6vw;
+                    font-style: italic;
+                    text-align: center;
+                    letter-spacing: 0.2em;
+                }
+
+                .dynamic_header_image figcaption {
+                    position: absolute;
+                    top: 50%;
+                    left: 0;
+                    width: 100%;
+                    transform: translateY(-50%);
+                    padding: 1rem;
+                }
+
+                .dynamic_header_image figcaption ruby rt {
+                    font-size: 0.4em;
+                }
+
+                .dynamic_header_image figcaption p {
+                    font-size: 1rem;
+                }
+
+                .dynamic_header_image + section {
+                    margin-top: 1rem;
+                }
+
+                .group_introduction {
+                    margin-top: 2rem;
+                }
+
+                .twitter_timeline_outer {
+                    width: calc(100% - (100vw - 100vmin));
+                    height: 50vh;
+                    margin: 10vmin calc((100vw - 100vmin) / 2);
+                }
+            </style>
+        </main>
+        <script src="src/js/orizin_ui.min.js"></script>
+        <script src="src/js/konami.js"></script>
+        <script src="src/js/delighters.min.js"></script>
+        <script src="src/js/common.js"></script>
+    </body>
+</html>
