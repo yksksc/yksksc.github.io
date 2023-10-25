@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ブロック崩しゲーム</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="paddle"></div>
+        <div class="ball"></div>
+        <div class="brick"></div>
+        body {
+    margin: 0;
+    overflow: hidden;
+}
+
+.game-container {
+    width: 400px;
+    height: 600px;
+    margin: 0 auto;
+    position: relative;
+    background-color: #f0f0f0;
+}
+
+.paddle {
+    width: 80px;
+    height: 10px;
+    background-color: #333;
+    position: absolute;
+    bottom: 10px;
+    left: 160px;
+}
+
+.ball {
+    width: 20px;
+    height: 20px;
+    background-color: #333;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 30px;
+    left: 200px;
+}
+
+.brick {
+    width: 60px;
+    height: 20px;
+    background-color: #333;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+}
+
+/* 他のブロックのスタイルをここに追加 */
+
+    </div>
+    <script>
+      const ball = document.querySelector('.ball');
+const paddle = document.querySelector('.paddle');
+const brick = document.querySelector('.brick');
+
+let ballX = 1;
+let ballY = 1;
+
+function updateBallPosition() {
+    const ballRect = ball.getBoundingClientRect();
+    const paddleRect = paddle.getBoundingClientRect();
+    const brickRect = brick.getBoundingClientRect();
+
+    if (ballRect.top + ballY <= 0 || ballRect.bottom + ballY >= window.innerHeight) {
+        ballY = -ballY;
+    }
+
+    if (ballRect.left + ballX <= 0 || ballRect.right + ballX >= window.innerWidth) {
+        ballX = -ballX;
+    }
+
+    if (ballRect.bottom + ballY >= paddleRect.top && ballRect.left + ballX >= paddleRect.left && ballRect.right + ballX <= paddleRect.right) {
+        ballY = -ballY;
+    }
+
+    if (ballRect.bottom + ballY <= brickRect.top || ballRect.top + ballY >= brickRect.bottom || ballRect.right + ballX <= brickRect.left || ballRect.left + ballX >= brickRect.right) {
+        // ブロックに当たらない場合の処理
+    } else {
+        // ブロックに当たった場合の処理
+    }
+
+    ball.style.transform = `translate(${ballX}px, ${ballY}px)`;
+    requestAnimationFrame(updateBallPosition);
+}
+
+updateBallPosition();
+
+    </script>
+</body>
+</html>
