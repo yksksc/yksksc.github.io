@@ -182,14 +182,14 @@
 
 
                 if (userInput.length !== answer.length) {
-                    document.getElementById("pokedle-result").innerText = "入力が正しくありません。";
+                    document.getElementById("pokedle-result").innerText = "5文字で解答してください";
                     return;
                 }
 
                 for (let i = 0; i < userInput.length; i++) {
                     // ▼文字が入力されたタイミングでチェックする：
                     if ((userInput[i].match(/[^ぁ-んァ-ヶー\s]/))) {
-                        document.getElementById("pokedle-result").innerText = "入力が正しくありません。";
+                        document.getElementById("pokedle-result").innerText = "入力はひらがな、カタカナのみです";
                         return;
                     };
                 };
@@ -202,6 +202,11 @@
                 };
 
                 userInput = hiraToKana(userInput);
+
+                if(!pokemonNames.includes(userInput)) {
+                    document.getElementById("pokedle-result").innerText = "ポケモン名を入力してください";
+                    return;
+                };
 
                 let masuStatus = "";
 
