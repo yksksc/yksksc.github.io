@@ -1,80 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
+
 <head>
-  <title>404 Not Found</title>
-  <link rel="stylesheet" href="404.css">
-  <style>
-    div {
-      text-align: center;
-    }
+    <!-- ファビコンを指定 -->
+    <!-- 今度やっておく-->
 
-    .game-container {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-    }
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found</title>
 
-    .ball {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100px;
-      height: 100px;
-      animation: moveBall 2s infinite;
-    }
-
-    @keyframes moveBall {
-      0% {
-        transform: translate(-50%, -50%);
-      }
-      100% {
-        transform: translate(calc(100% - 100px), calc(100% - 100px));
-      }
-    }
-  </style>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const ball = document.querySelector('.ball');
-      const gameContainer = document.querySelector('.game-container');
-      const containerWidth = gameContainer.clientWidth;
-      const containerHeight = gameContainer.clientHeight;
-      const ballSize = 100;
-      const ballSpeed = 5;
-      let x = containerWidth / 2 - ballSize / 2;
-      let y = containerHeight / 2 - ballSize / 2;
-      let dx = ballSpeed;
-      let dy = ballSpeed;
-
-      function moveBall() {
-        x += dx;
-        y += dy;
-
-        if (x + ballSize >= containerWidth || x <= 0) {
-          dx *= -1;
-        }
-
-        if (y + ballSize >= containerHeight || y <= 0) {
-          dy *= -1;
-        }
-
-        ball.style.left = x + 'px';
-        ball.style.top = y + 'px';
-
-        requestAnimationFrame(moveBall);
-      }
-
-      moveBall();
-    });
-  </script>
+    <!-- CSSファイルを指定 -->
+    <link rel="stylesheet" type="text/css" href="./global.css">
 </head>
+<!-- Header(上のやつ) -->
+<header>
+    <!-- 背景の動画 -->
+
+    <h1>YokosukaScienceClub</h1>
+    <nav>
+        <ul><br class="sp">
+            <li><a href="./index.html">Home</a></li>
+            <li><a href="./info.html">Info</a></li>
+            <li><a href="./fields.html">Fields</a></li>
+            <li><a href="./games.html">Games</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
 <body>
-  <div>
-    <p><font size="10">404 Not Found</font></p>
-  </div>
-  <div class="game-container">
-    <img class="ball" src="rara.jpg">
-  </div>
+
+    <!-- 404ページ用のスタイル -->
+    <style>
+        div {
+            text-align: center;
+        }
+
+        .game-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .ball {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            animation: moveBall 2s infinite;
+        }
+
+        @keyframes moveBall {
+            0% {
+                transform: translate(-50%, -50%);
+            }
+
+            100% {
+                transform: translate(calc(100% - 100px), calc(100% - 100px));
+            }
+        }
+    </style>
+
+    <!-- 404ページの内容 -->
+    <div class="empty-space">
+        <p>404 Not Found</p>
+        <div class="game-container">
+            <img class="ball" src="./image/rarala.jpg">
+        </div>
+    </div>
+
+    <!-- 404ページ用のJavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ball = document.querySelector('.ball');
+            const gameContainer = document.querySelector('.game-container');
+            const containerWidth = gameContainer.clientWidth;
+            const containerHeight = gameContainer.clientHeight;
+            const ballSize = 100;
+            const ballSpeed = 5;
+            let x = containerWidth / 2 - ballSize / 2;
+            let y = containerHeight / 2 - ballSize / 2;
+            let dx = ballSpeed;
+            let dy = ballSpeed;
+
+            function moveBall() {
+                x += dx;
+                y += dy;
+                if (x + ballSize >= containerWidth || x <= 0) dx *= -1
+                if (y + ballSize >= containerHeight || y <= 0) dy *= -1
+                ball.style.left = x + 'px';
+                ball.style.top = y + 'px';
+                requestAnimationFrame(moveBall);
+            }
+
+            moveBall();
+        });
+    </script>
+
+    <!-- Footerを設定 -->
+    <footer>
+        <p>&copy; 2024 Yokosuka Science Club. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScriptファイルを指定 -->
+    <script src="./global.js"></script>
 </body>
+
 </html>

@@ -1,0 +1,844 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Noto+Serif+JP&display=swap");
+
+/* リセットCSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    cursor: url(images/sansyo_cursor.png), default;
+    scroll-behavior: smooth;
+    /* スムーズスクロールを有効にする */
+    height: 100%;
+    /* 追加：html要素の高さを100%に設定 */
+
+    background-image: url("./images/background.png");
+}
+
+/* ドット風のウェブフォントを読み込む */
+body {
+    font-family: 'Courier New', monospace;
+    /* 代替のフォントを指定 */
+    font-size: 35px;
+    /* 文字サイズを35pxに設定 */
+    color: white;
+    /* 文字色を白に設定 */
+    text-shadow: -8px -8px 16px rgba(0, 0, 0, 1), 8px -8px 16px rgba(0, 0, 0, 1), -8px 8px 16px rgba(0, 0, 0, 1), 8px 8px 16px rgba(0, 0, 0, 1);
+    margin: 0;
+    padding-top: 120px;
+    /* ヘッダーの後ろに要素が隠れないようにするため */
+    overflow: hidden visible;
+}
+
+.frame_controller {
+    width: 500px;
+    height: 700px;
+}
+
+.header-body {
+    font-family: 'Courier New', monospace;
+    /* 代替のフォントを指定 */
+    font-size: 35px;
+    /* 文字サイズを35pxに設定 */
+    color: white;
+    /* 文字色を白に設定 */
+    text-shadow: -8px -8px 16px rgba(0, 0, 0, 1), 8px -8px 16px rgba(0, 0, 0, 1), -8px 8px 16px rgba(0, 0, 0, 1), 8px 8px 16px rgba(0, 0, 0, 1);
+    margin: 0;
+    position: fixed;
+    /* ウィンドウを基準に画面に固定 */
+    top: 0;
+    /* 上下の固定位置を上から0pxにする */
+    left: 0;
+    /* 左右の固定位置を左から0pxにする */
+    width: 300%;
+    z-index: 100;
+
+}
+
+/**
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+*/
+
+/* アニメーションを初期状態で非表示にする */
+.scroll-animate-element {
+    opacity: 0;
+    margin: 200px 0;
+    /* 上下に50pxのマージンを追加 */
+}
+
+/* スクロールして要素が画面に表示されたらフェードインする */
+.scroll-animate-element.fade-in {
+    opacity: 1;
+    transition: opacity 2s ease;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 50px;
+    margin: 0;
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav li {
+    display: inline-block;
+    margin-right: 50px;
+}
+
+a {
+    cursor: url(images/sansyo_cursor.png), default;
+    text-decoration: none;
+    /* 下線をなくす */
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+/* マウスホバー時のスタイルをカスタマイズ（オプション） */
+a:hover {
+    color: orange;
+    /* オレンジ色に設定 */
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #ffcc00;
+}
+
+main {
+    padding: 20px;
+    margin-left: 50px;
+    /* 左側に50pxのマージンを追加 */
+    margin-right: 50px;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+section h2 {
+    font-size: 50px;
+    border-bottom: 2px solid #fff;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+section p {
+    line-height: 1.8;
+}
+
+.empty-space {
+    height: calc(var(--adjusted-window-height, 100vh));
+    width: 100%;
+    font-family: 'Courier New', monospace;
+    /* 代替のフォントを指定 */
+    font-size: 80px;
+    /* 文字サイズを80pxに設定 */
+    color: white;
+    /* 文字色を白に設定 */
+    text-shadow: -8px -8px 16px rgba(0, 0, 0, 1), 8px -8px 16px rgba(0, 0, 0, 1), -8px 8px 16px rgba(0, 0, 0, 1), 8px 8px 16px rgba(0, 0, 0, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.air-space {
+    height: 200px;
+    width: 100%;
+}
+
+.team-member {
+    background-color: #444;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.team-member h3 {
+    font-size: 50px;
+    margin-bottom: 5px;
+}
+
+.team-member p {
+    font-size: 25px;
+}
+
+.team-member img {
+    width: 200px;
+    /* 画像の幅を100pxに設定 */
+    height: 200px;
+    /* 画像の高さを100pxに設定 */
+    border-radius: 50%;
+    /* 画像を丸く表示 */
+    margin-right: 10px;
+    /* 画像とテキストの間に余白を設定 */
+}
+
+.team-member {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    /* 画像とテキストを縦方向に中央揃え */
+}
+
+.map_image img {
+    align-items: center;
+}
+
+/* アニメーション */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+section {
+    animation: fadeIn 1s ease;
+}
+
+/* フッター */
+footer {
+    text-align: center;
+    background-color: #333;
+    color: #fff;
+    height: 300%;
+    padding: 10px;
+}
+
+/* PCの要素だけを表示 */
+.pc {
+    display: inline;
+}
+
+.sp {
+    display: none;
+}
+
+.tb {
+    display: none;
+}
+
+/* 背景の動画 */
+video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+}
+
+/* ホーム画面の左下の画像 */
+.start-image {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* タブレットサイズ対応 */
+@media screen and (max-width: 1534px) {
+
+    body {
+        font-family: 'Courier New', monospace;
+        /* 代替のフォントを指定 */
+        font-size: 25px;
+        /* 文字サイズを48pxに設定 */
+        color: white;
+        /* 文字色を白に設定 */
+        text-shadow: -2px -2px 4px rgba(0, 0, 0, 1), 2px -2px 4px rgba(0, 0, 0, 1), -2px 2px 4px rgba(0, 0, 0, 1), 2px 2px 4px rgba(0, 0, 0, 1);
+    }
+
+    .header-body {
+        font-family: 'Courier New', monospace;
+        /* 代替のフォントを指定 */
+        font-size: 25px;
+        /* 文字サイズを48pxに設定 */
+        color: white;
+        /* 文字色を白に設定 */
+        text-shadow: -2px -2px 4px rgba(0, 0, 0, 1), 2px -2px 4px rgba(0, 0, 0, 1), -2px 2px 4px rgba(0, 0, 0, 1), 2px 2px 4px rgba(0, 0, 0, 1);
+    }
+
+    header {
+        padding: 10px 20px;
+    }
+
+    footer {
+        text-align: center;
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 40px;
+        margin: 0;
+    }
+
+    nav ul {
+        list-style: none;
+    }
+
+    nav li {
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: #fff;
+        transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+        color: #ffcc00;
+    }
+
+    main {
+        padding: 20px;
+        margin-left: 20px;
+        /* 左側に20pxのマージンを追加 */
+        margin-right: 20px;
+        /* 右側に20pxのマージンを追加 */
+    }
+
+    section {
+        margin-bottom: 10px;
+    }
+
+    section h2 {
+        font-size: 40px;
+        border-bottom: 2px solid #fff;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    section p {
+        line-height: 1.8;
+    }
+
+    .pc {
+        display: none;
+    }
+
+    .sp {
+        display: none;
+    }
+
+    .tb {
+        display: inline;
+    }
+
+    .empty-space {
+        height: calc(var(--adjusted-window-height, 100vh));
+        width: 100%;
+        font-family: 'Courier New', monospace;
+        /* 代替のフォントを指定 */
+        font-size: 40px;
+        /* 文字サイズを20pxに設定 */
+        color: white;
+        /* 文字色を白に設定 */
+        text-shadow: -4px -4px 8px rgba(0, 0, 0, 1), 4px -4px 8px rgba(0, 0, 0, 1), -4px 4px 8px rgba(0, 0, 0, 1), 4px 4px 8px rgba(0, 0, 0, 1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .air-space {
+        height: 20px;
+        width: 100%;
+    }
+
+    .scroll-animate-element {
+        opacity: 0;
+        margin: 50px 0;
+        /* 上下に50pxのマージンを追加 */
+    }
+
+    .team-member img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .twitter-timeline {
+        position: absolute;
+        left: 20%;
+    }
+
+    .padding_before {
+        padding-top: 80%;
+    }
+}
+
+/* スマートフォン対応 */
+@media screen and (max-width: 767px) {
+
+    body {
+        font-family: 'Courier New', monospace;
+        /* 代替のフォントを指定 */
+        font-size: 15px;
+        /* 文字サイズを48pxに設定 */
+        color: white;
+        /* 文字色を白に設定 */
+        text-shadow: -2px -2px 4px rgba(0, 0, 0, 1), 2px -2px 4px rgba(0, 0, 0, 1), -2px 2px 4px rgba(0, 0, 0, 1), 2px 2px 4px rgba(0, 0, 0, 1);
+    }
+
+    .header-body {
+        font-family: 'Courier New', monospace;
+        /* 代替のフォントを指定 */
+        font-size: 15px;
+        /* 文字サイズを48pxに設定 */
+        color: white;
+        /* 文字色を白に設定 */
+        text-shadow: -2px -2px 4px rgba(0, 0, 0, 1), 2px -2px 4px rgba(0, 0, 0, 1), -2px 2px 4px rgba(0, 0, 0, 1), 2px 2px 4px rgba(0, 0, 0, 1);
+    }
+
+    header {
+        padding: 10px 20px;
+    }
+
+    footer {
+        text-align: center;
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 30px;
+        margin: 0;
+    }
+
+    nav ul {
+        list-style: none;
+    }
+
+    nav li {
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: #fff;
+        transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+        color: #ffcc00;
+    }
+
+    main {
+        padding: 20px;
+        margin-left: 20px;
+        /* 左側に20pxのマージンを追加 */
+        margin-right: 20px;
+        /* 右側に20pxのマージンを追加 */
+    }
+
+    section {
+        margin-bottom: 10px;
+    }
+
+    section h2 {
+        font-size: 18px;
+        border-bottom: 2px solid #fff;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    section p {
+        line-height: 1.8;
+    }
+
+    .pc {
+        display: none;
+    }
+
+    .sp {
+        display: inline;
+    }
+
+    .tb {
+        display: none;
+    }
+
+    .empty-space {
+        height: calc(var(--adjusted-window-height, 100vh));
+        width: 100%;
+        font-family: 'Courier New', monospace;
+        /* 代替のフォントを指定 */
+        font-size: 20px;
+        /* 文字サイズを20pxに設定 */
+        color: white;
+        /* 文字色を白に設定 */
+        text-shadow: -4px -4px 8px rgba(0, 0, 0, 1), 4px -4px 8px rgba(0, 0, 0, 1), -4px 4px 8px rgba(0, 0, 0, 1), 4px 4px 8px rgba(0, 0, 0, 1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .air-space {
+        height: 20px;
+        width: 100%;
+    }
+
+    .scroll-animate-element {
+        opacity: 0;
+        margin: 50px 0;
+        /* 上下に50pxのマージンを追加 */
+    }
+
+    .team-member {
+        padding: 5px;
+    }
+
+    .team-member h3 {
+        font-size: 18px;
+    }
+
+    .team-member p {
+        font-size: 14px;
+    }
+
+    .team-member img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .twitter-timeline {
+        position: absolute;
+        left: 20%;
+        height: 1%;
+    }
+
+    .padding_before {
+        padding-top: 100%;
+    }
+}
+
+.body-content {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    font-size: 100%;
+    color: #000;
+    text-shadow: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden visible;
+}
+
+.h1-content {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    font-size: 100%;
+    text-shadow: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden visible;
+    text-shadow: none;
+    color: #FF0000;
+}
+
+.pokedle-input {
+    font-family: Arial, sans-serif;
+    text-shadow: none;
+    color: #000;
+    margin: 20px;
+    padding: 10px;
+    width: 100%;
+    font-size: 32px;
+    text-align: center;
+}
+
+.pokedle-font {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    text-shadow: none;
+    color: #000;
+}
+
+#pokedle-twitter {
+    font-family: Arial, sans-serif;
+    text-shadow: none;
+    color: #FFF;
+}
+
+#kotae {
+    font-family: Arial, sans-serif;
+    text-shadow: none;
+    color: white;
+}
+
+.pokedle-container {
+    width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 150vh;
+    /* ボタンを画面の中央に配置するために必要な高さ */
+}
+
+.pokedle-button {
+    /* 既存のスタイル */
+    padding: 20px 40px;
+    background-color: #FF0000;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    font-size: 32px;
+    cursor: url(images/sansyo_cursor.png), default;
+    text-align: center;
+}
+
+.pokedle-result {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    text-shadow: none;
+    margin: 40px 0;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.pokedle-grid {
+    margin-top: 40px;
+    display: grid;
+    grid-template-rows: repeat(9, 1fr);
+    gap: 10px;
+}
+
+.pokedle-row {
+    display: flex;
+    justify-content: center;
+}
+
+.pokedle-cell {
+    font-family: Arial, sans-serif;
+    text-shadow: none;
+    width: 80px;
+    color: #000;
+    height: 80px;
+    background-color: #FFFFFF;
+    border: 2px solid #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    perspective: 800px;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+}
+
+.pokedle-cell.flip {
+    transform: rotateY(180deg);
+}
+
+.pokedle-correct {
+    background-color: #00FF00;
+}
+
+.pokedle-match {
+    background-color: #FFFF00;
+}
+
+.pokedle-hidden {
+    display: none;
+}
+
+iframe {
+    cursor: url(images/sansyo_cursor.png), default;
+}
+
+.dynamic_header_image {
+    width: 100vw;
+    height: 0;
+    padding-bottom: 40%;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.dynamic_header_image img {
+    width: 130%;
+    height: 80%;
+    object-fit: cover;
+    filter: brightness(0.8);
+    position: absolute;
+    top: 0;
+    left: -20%;
+}
+
+.dynamic_header_image figcaption,
+.dynamic_header_image figcaption * {
+    font-family: "Noto Serif JP", serif;
+    color: white;
+    font-size: 6vw;
+    font-style: italic;
+    text-align: center;
+    letter-spacing: 0.2em;
+}
+
+.dynamic_header_image figcaption {
+    position: absolute;
+    top: 50%;
+    left: -10%;
+    width: 100%;
+    transform: translateY(-50%);
+    padding: 1rem;
+}
+
+.dynamic_header_image figcaption ruby rt {
+    font-size: 0.4em;
+}
+
+.dynamic_header_image figcaption p {
+    font-size: 1rem;
+}
+
+.dynamic_header_image+section {
+    margin-top: 10rem;
+}
+
+#youtube_outer {
+    width: 100%;
+    padding: 0 calc((100vw - 100vmin) / 2);
+    margin: 10vmin 0;
+}
+
+#youtube_inner {
+    width: 100%;
+    padding-bottom: 56.25%;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+#youtube_outer iframe {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#header_image_group {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: max(56.25vw, 30vh);
+}
+
+#header_image_group #header_image_outer {
+    height: max(56.25vw, 30vh);
+}
+
+#header_image_group #header_image_outer img {
+    z-index: 0;
+    filter: brightness(0.7);
+    width: 100vw;
+    height: max(56.25vw, 30vh);
+    object-fit: cover;
+    position: absolute;
+}
+
+@media (orientation: landscape) {
+
+    #header_image_group,
+    #header_image_group #header_image_outer,
+    #header_image_group #header_image_outer img {
+        height: 100vh;
+    }
+}
+
+#header_image_group #intro_text_group {
+    position: absolute;
+    bottom: 20%;
+    left: 0;
+    z-index: 1;
+    width: 100vw;
+}
+
+#header_image_group #intro_text_group #intro_text {
+    color: white;
+    font-weight: thin;
+    text-align: center;
+    font-size: 3rem;
+    letter-spacing: 0.15rem;
+}
+
+#header_image_group #intro_text_group #down_arrow {
+    border-bottom: solid 0.1rem white;
+    border-right: solid 0.1rem white;
+    position: absolute;
+    left: 50%;
+    z-index: 1;
+    width: 3rem;
+    height: 3rem;
+    transform: translate(-50%) rotate(45deg);
+    animation: down_arrow_animation 1.5s ease infinite alternate;
+}
+
+@keyframes down_arrow_animation {
+    0% {
+        transform: translate(-50%) rotate(45deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, 1rem) scaleX(0.9) rotate(45deg);
+        opacity: 0.25;
+    }
+}
+
+@font-face {
+    font-family: "Material Icons";
+    font-style: normal;
+    font-weight: 400;
+    src: local("Material Icons"), local("MaterialIcons-Regular");
+}
+
+.material_icon {
+    font-family: "Material Icons";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 1em;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    vertical-align: sub;
+}

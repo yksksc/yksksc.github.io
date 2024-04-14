@@ -1,378 +1,336 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
+
 <head>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>YOKODLE（ヨコドル）</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        
-        h1 {
-            color: #FF0000;
-        }
-        
-        .pokedle-container {
-            width: 600px;
-            margin: 0 auto;
-        }
-        
-        .pokedle-input {
-            margin: 20px;
-            padding: 10px;
-            width: 100%;
-            font-size: 32px;
-            text-align: center;
-        }
-        
-        .pokedle-button {
-            padding: 20px 40px;
-            background-color: #FF0000;
-            color: #FFFFFF;
-            border: none;
-            border-radius: 10px;
-            font-size: 32px;
-            cursor: pointer;
-        }
-        
-        .pokedle-result {
-            margin: 40px 0;
-            font-size: 36px;
-            font-weight: bold;
-        }
-        
-        .pokedle-grid {
-            margin-top: 40px;
-            display: grid;
-            grid-template-rows: repeat(9, 1fr);
-            gap: 10px;
-        }
-        
-        .pokedle-row {
-            display: flex;
-            justify-content: center;
-        }
-        
-        .pokedle-cell {
-            width: 80px;
-            height: 80px;
-            background-color: #FFFFFF;
-            border: 2px solid #000000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            perspective: 800px;
-            transform-style: preserve-3d;
-            transition: transform 0.5s;
-        }
-        
-        .pokedle-cell.flip {
-            transform: rotateY(180deg);
-        }
-        
-        .pokedle-correct {
-            background-color: #00FF00;
-        }
-        
-        .pokedle-match {
-            background-color: #FFFF00;
-        }
-        
-        .pokedle-hidden {
-            display: none;
-        }
-    </style>
-	<body>
-    <h1>YOKODLE（ヨコドル）</h1>
-    <div class="pokedle-container">
-        <input type="text" id="pokedle-input" class="pokedle-input" maxlength="5" placeholder="ポケモン名を入力してください">
-        <button onclick="checkAnswer()" class="pokedle-button" id="pokedle-button">チェック</button>
-        <button onclick="shareOnTwitter()" class="pokedle-button pokedle-hidden" id="pokedle-twitter">ツイッターで共有</button>
-        <p class="pokedle-button pokedle-hidden" id="kotae">正解は<span id="answer"></span></p>
-        <p id="pokedle-result"></p>
-        <p>残りの回答回数: <span id="pokedle-attempts"></span></p>
-        <div id="pokedle-grid" class="pokedle-grid"></div>
-    </div>
-    <script>
-	    let pokemonNames = [
-  'フシギダネ', 'フシギソウ', 'フシギバナ', 'リザードン', 'カメックス',
-  'キャタピー', 'トランセル', 'バタフリー', 'ピジョット', 'オニスズメ',
-  'オニドリル', 'アーボック', 'ピカチュウ', 'ライチュウ', 'サンドパン',
-  'ニドリーナ', 'ニドクイン', 'ニドリーノ',
-  'ニドキング', 'キュウコン', 'ゴルバット', 'ナゾノクサ', 'クサイハナ',
-  'ラフレシア', 'パラセクト', 'モルフォン', 'ダグトリオ', 'ペルシアン',
-  'ゴルダック', 'オコリザル', 'ウインディ', 'ニョロボン', 'ユンゲラー',
-  'フーディン', 'ワンリキー', 'ゴーリキー', 'カイリキー', 'マダツボミ',
-  'ウツボット', 'メノクラゲ', 'ドククラゲ', 'イシツブテ', 'ゴローニャ',
-  'ギャロップ', 'レアコイル', 'ドードリオ', 'ベトベター', 'ベトベトン',
-  'シェルダー', 'パルシェン', 'スリーパー', 'キングラー', 'ビリリダマ',
-  'マルマイン', 'サワムラー', 'エビワラー', 'ベロリンガ', 'マタドガス',
-  'サイホーン', 'モンジャラ', 'トサキント', 'アズマオウ', 'ヒトデマン',
-  'スターミー', 'バリヤード', 'ストライク', 'ルージュラ', 'ケンタロス',
-  'コイキング', 'ギャラドス', 'シャワーズ', 'サンダース', 'ブースター',
-  'オムナイト', 'オムスター', 'カブトプス', 'フリーザー', 'ファイヤー',
-  'ミニリュウ', 'ハクリュー', 'カイリュー', 'ミュウツー', 'チコリータ',
-  'ベイリーフ', 'メガニウム', 'ヒノアラシ', 'マグマラシ', 'バクフーン',
-  'アリゲイツ', 'オーダイル', 'ヨルノズク', 'レディアン', 'アリアドス',
-  'クロバット', 'チョンチー', 'ランターン', 'トゲチック', 'ネイティオ',
-  'デンリュウ', 'キレイハナ', 'ウソッキー', 'ニョロトノ', 'ヒマナッツ',
-  'ヤンヤンマ', 'ブラッキー', 'ヤミカラス', 'ヤドキング', 'アンノーン',
-  'ソーナンス', 'キリンリキ', 'クヌギダマ', 'フォレトス', 'グライガー',
-  'ハガネール', 'グランブル', 'ハリーセン', 'ヘラクロス', 'マグマッグ',
-  'マグカルゴ', 'テッポウオ', 'デリバード', 'マンタイン', 'エアームド',
-  'キングドラ', 'ドンファン', 'ポリゴン2',  'カポエラー', 'ムチュール',
-  'エレキッド', 'ミルタンク', 'ヨーギラス', 'サナギラス', 'バンギラス',
-  'ジュプトル', 'ジュカイン', 'ワカシャモ', 'バシャーモ', 'ミズゴロウ',
-  'ヌマクロー', 'ラグラージ', 'ジグザグマ', 'マッスグマ', 'カラサリス',
-  'アゲハント', 'ドクケイル', 'ハスブレロ', 'ルンパッパ', 'ダーテング',
-  'オオスバメ', 'ペリッパー', 'サーナイト', 'アメモース', 'キノガッサ',
-  'ヤルキモノ', 'ケッキング', 'テッカニン', 'ゴニョニョ', 'バクオング',
-  'マクノシタ', 'ハリテヤマ', 'エネコロロ', 'ボスゴドラ', 'チャーレム',
-  'ライボルト', 'バルビート', 'イルミーゼ', 'マルノーム', 'サメハダー',
-  'ホエルオー', 'ブーピッグ', 'パッチール', 'ナックラー', 'ビブラーバ',
-  'フライゴン', 'チルタリス', 'ザングース', 'ハブネーク', 'ルナトーン',
-  'ソルロック', 'ドジョッチ', 'シザリガー', 'ネンドール', 'ユレイドル',
-  'アーマルド', 'ミロカロス', 'カクレオン', 'カゲボウズ', 'ジュペッタ',
-  'サマヨール', 'トロピウス', 'ユキワラシ', 'オニゴーリ', 'タマザラシ',
-  'トドグラー', 'トドゼルガ', 'ハンテール', 'サクラビス', 'ジーランス',
-  'ボーマンダ', 'メタグロス', 'レジロック', 'レジアイス', 'レジスチル',
-  'ラティアス', 'ラティオス', 'カイオーガ', 'グラードン', 'レックウザ',
-  'デオキシス', 'ハヤシガメ', 'ドダイトス', 'モウカザル', 'ゴウカザル',
-  'ポッチャマ', 'ポッタイシ', 'エンペルト', 'ムクバード', 'ムクホーク',
-  'コロボーシ', 'コロトック', 'レントラー', 'ロズレイド', 'ズガイドス',
-  'ラムパルド', 'タテトプス', 'トリデプス', 'ミノムッチ', 'ミノマダム',
-  'ガーメイル', 'ミツハニー', 'ビークイン', 'フローゼル', 'チェリンボ',
-  'カラナクシ', 'トリトドン', 'エテボース', 'フワライド', 'ミミロップ',
-  'ムウマージ', 'ドンカラス', 'ニャルマー', 'ブニャット', 'リーシャン',
-  'スカンプー', 'スカタンク', 'ドーミラー', 'ドータクン', 'ガブリアス',
-  'ヒポポタス', 'カバルドン', 'ドラピオン', 'グレッグル', 'ドクロッグ',
-  'マスキッパ', 'ケイコウオ', 'ネオラント', 'ユキカブリ', 'ユキノオー',
-  'マニューラ', 'ジバコイル', 'ベロベルト', 'ドサイドン', 'モジャンボ',
-  'エレキブル', 'ブーバーン', 'トゲキッス', 'メガヤンマ', 'リーフィア',
-  'グレイシア', 'グライオン', 'ポリゴンZ',  'エルレイド', 'ダイノーズ',
-  'ヨノワール', 'ユキメノコ', 'エムリット', 'ディアルガ', 'ヒードラン',
-  'レジギガス', 'ギラティナ', 'クレセリア', 'ダークライ', 'アルセウス',
-  'ビクティニ', 'ツタージャ', 'ジャノビー', 'ジャローダ', 'チャオブー',
-  'エンブオー', 'ミジュマル', 'フタチマル', 'ダイケンキ', 'ミルホッグ',
-  'ヨーテリー', 'ハーデリア', 'ムーランド', 'チョロネコ', 'レパルダス',
-  'ヤナッキー', 'バオッキー', 'ヒヤッキー', 'ムシャーナ', 'ハトーボー',
-  'ケンホロウ', 'ゼブライカ', 'ギガイアス', 'ココロモリ', 'モグリュー',
-  'ドリュウズ', 'ドッコラー', 'ドテッコツ', 'ローブシン', 'ガマゲロゲ',
-  'ハハコモリ', 'ペンドラー', 'エルフーン', 'ドレディア', 'ワルビアル',
-  'ダルマッカ', 'ヒヒダルマ', 'マラカッチ', 'イシズマイ', 'イワパレス',
-  'ズルズキン', 'シンボラー', 'デスカーン', 'プロトーガ', 'アバゴーラ',
-  'アーケオス', 'ヤブクロン', 'ダストダス', 'ゾロアーク', 'チラーミィ',
-  'チラチーノ', 'ゴチルゼル', 'ランクルス', 'コアルヒー', 'バニプッチ',
-  'バニリッチ', 'バイバニラ', 'メブキジカ', 'シュバルゴ', 'タマゲタケ',
-  'モロバレル', 'ブルンゲル', 'ママンボウ', 'デンチュラ', 'テッシード',
-  'ナットレイ', 'ギギギアル', 'シビシラス', 'シビビール', 'シビルドン',
-  'ランプラー', 'シャンデラ', 'オノノクス', 'クマシュン', 'ツンベアー',
-  'フリージオ', 'チョボマキ', 'アギルダー', 'コジョフー', 'コジョンド',
-  'クリムガン', 'キリキザン', 'バッフロン', 'ウォーグル', 'バルチャイ',
-  'バルジーナ', 'クイタラン', 'アイアント', 'サザンドラ', 'ウルガモス',
-  'コバルオン', 'テラキオン', 'ビリジオン', 'トルネロス', 'ボルトロス',
-  'ランドロス', 'ケルディオ', 'メロエッタ', 'ゲノセクト', 'ハリマロン',
-  'ハリボーグ', 'ブリガロン', 'テールナー', 'ゲコガシラ', 'ゲッコウガ',
-  'ヒノヤコマ', 'コフキムシ', 'コフーライ', 'カエンジシ', 'フラエッテ',
-  'メェークル', 'ゴーゴート', 'ヤンチャム', 'トリミアン', 'ニャスパー',
-  'ニダンギル', 'ギルガルド', 'シュシュプ', 'フレフワン', 'ペロッパフ',
-  'ペロリーム', 'マーイーカ', 'カラマネロ', 'ガメノデス', 'ドラミドロ',
-  'ウデッポウ', 'ブロスター', 'エリキテル', 'エレザード', 'ガチゴラス',
-  'アマルルガ', 'ニンフィア', 'ルチャブル', 'ヌメルゴン', 'クレッフィ',
-  'オーロット', 'バケッチャ', 'パンプジン', 'カチコール', 'クレベース',
-  'オンバット', 'オンバーン', 'ゼルネアス', 'イベルタル', 'フクスロー',
-  'ニャヒート', 'ガオガエン', 'オシャマリ', 'アシレーヌ', 'ケララッパ',
-  'ドデカバシ', 'ヤングース', 'デカグース', 'アゴジムシ', 'デンヂムシ',
-  'クワガノン', 'マケンカニ', 'ケケンカニ', 'オドリドリ', 'アブリボン',
-  'ルガルガン', 'ドヒドイデ', 'ドロバンコ', 'バンバドロ', 'ラランテス',
-  'マシェード', 'ヤトウモリ', 'ヌイコグマ', 'キテルグマ', 'アママイコ',
-  'アマージョ', 'キュワワー', 'コソクムシ', 'シロデスナ', 'ナマコブシ',
-  'ネッコアラ', 'バクガメス', 'トゲデマル', 'ミミッキュ', 'ハギギシリ',
-  'ジジーロン', 'ジャランゴ', 'コスモッグ', 'コスモウム', 'ソルガレオ',
-  'ルナアーラ', 'ウツロイド', 'テッカグヤ', 'カミツルギ', 'ネクロズマ',
-  'アーゴヨン', 'ズガドーン', 'メルメタル', 'バチンキー', 'ラビフット',
-  'ジメレオン', 'ホシガリス', 'ヨクバリス', 'アオガラス', 'サッチムシ',
-  'レドームシ', 'ワタシラガ', 'カジリガメ', 'パルスワン', 'トロッゴン',
-  'カジッチュ', 'タルップル', 'サダイジャ', 'サシカマス', 'マルヤクデ',
-  'オトスパス', 'ポットデス', 'ブリムオン', 'オーロンゲ', 'サニゴーン',
-  'バリコオル', 'デスバーン', 'マホイップ', 'タイレーツ', 'バチンウニ',
-  'コオリッポ', 'イエッサン', 'ドラメシヤ', 'ドラパルト', 'ザマゼンタ',
-  'ウーラオス', 'レジエレキ', 'レジドラゴ', 'ブリザポス', 'レイスポス',
-  'イダイトウ', 'ハリーマン', 'ラブトロス', 'ニャローテ', 'アチゲータ',
-  'ウェルカモ', 'ワナイダー', 'マメバッタ', 'パーモット', 'パピモッチ',
-  'オリーニョ', 'オリーヴァ', 'イキリンコ', 'ハラバリー', 'タギングル',
-  'ノノクラゲ', 'リククラゲ', 'カプサイジ', 'カヌチャン', 'ウミトリオ',
-  'オトシドリ', 'ナミイルカ', 'イルカマン', 'モトトカゲ', 'キラフロル',
-  'ハカドッグ', 'カラミンゴ', 'アルクジラ', 'ハルクジラ', 'ミガルーサ',
-  'シャリタツ', 'コノヨザル', 'リキキリン', 'ノココッチ', 'ドドゲザン',
-  'セグレイブ', 'コレクレー', 'サーフゴー', 'パオジアン', 'ディンルー',
-  'コライドン', 'ミライドン'
-]
-    　　let text_form = document.getElementById('pokedle-input');
-        // ポケドルの答えをランダムに選択
-        let answer = pokemonNames[Math.floor(Math.random() * pokemonNames.length)];
-        
-        // プレイヤーの回答回数
-        let remainingAttempts = 9;
-        
-        // ユーザーの回答を保持する配列
-        let userGuesses = [];
-        
-        // ユーザーが入力した回答のチェック
-        function checkAnswer() {
-            let userInput = document.getElementById("pokedle-input").value.toUpperCase();
-            let textForm = document.getElementById("pokedle-input");
-            textForm.value = '';
-            if (userInput.length !== answer.length) {
-                document.getElementById("pokedle-result").innerText = "入力が正しくありません。";
-                return;
-            }
+    <!-- ファビコンを指定 -->
+    <!-- 今度やっておく-->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yokodle|YSC</title>
+    <script src="./global.js"></script>
+
+    <!-- CSSファイルを指定 -->
+    <link rel="stylesheet" type="text/css" href="./global.css">
+</head>
+
+    <!-- Header(上のやつ) -->
+    <header class="header-body">
+        <!-- 背景の動画 -->
+
+        <h1>YokosukaScienceClub</h1>
+        <nav>
+            <ul><br class="sp">
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./info.html">Info</a></li>
+                <li><a href="./fields.html">Fields</a></li>
+                <li><a href="./games.html">Games</a></li>
+                <li><a href="./contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+<!-- メインの要素 -->
 
 
-            
-            let masuStatus = "";
-            
-            
-            remainingAttempts--;
-            document.getElementById("pokedle-attempts").innerText = remainingAttempts.toString();
-            
-            let result = "";
+<main>
 
-            let correctIndexes = [];
-            let matchIndexes = [];
-            
-            for (let i = 0; i < answer.length; i++) {
-                if (userInput[i] === answer[i]) {
-                    result += "O";
-                    correctIndexes.push(i);
-                } else if (answer.indexOf(userInput[i]) !== -1) {
-                    result += "X";
-                    matchIndexes.push(i);
-                } else {
-                    result += "-";
+    <body class="body-content">
+
+        <h1 class="h1-content">YOKODLE（ヨコドル）</h1>
+        <div class="pokedle-container">
+            <input type="text" id="pokedle-input" class="pokedle-input" maxlength="5" placeholder="ポケモン名を入力してください">
+            <button onclick="checkAnswer()" class="pokedle-button" id="pokedle-button">チェック</button>
+            <button onclick="shareOnTwitter()" class="pokedle-button pokedle-hidden"
+                id="pokedle-twitter">ツイッターで共有</button>
+            <p class="pokedle-button pokedle-hidden" id="kotae">正解は<span id="answer"></span></p>
+            <p class="pokedle-font" id="pokedle-result"></p>
+            <p class="pokedle-font">残りの回答回数: <span id="pokedle-attempts"></span></p>
+            <div id="pokedle-grid" class="pokedle-grid"></div>
+        </div>
+        <script>
+            let pokemonNames = [
+                'フシギダネ', 'フシギソウ', 'フシギバナ', 'リザードン', 'カメックス',
+                'キャタピー', 'トランセル', 'バタフリー', 'ピジョット', 'オニスズメ',
+                'オニドリル', 'アーボック', 'ピカチュウ', 'ライチュウ', 'サンドパン',
+                'ニドリーナ', 'ニドクイン', 'ニドリーノ',
+                'ニドキング', 'キュウコン', 'ゴルバット', 'ナゾノクサ', 'クサイハナ',
+                'ラフレシア', 'パラセクト', 'モルフォン', 'ダグトリオ', 'ペルシアン',
+                'ゴルダック', 'オコリザル', 'ウインディ', 'ニョロボン', 'ユンゲラー',
+                'フーディン', 'ワンリキー', 'ゴーリキー', 'カイリキー', 'マダツボミ',
+                'ウツボット', 'メノクラゲ', 'ドククラゲ', 'イシツブテ', 'ゴローニャ',
+                'ギャロップ', 'レアコイル', 'ドードリオ', 'ベトベター', 'ベトベトン',
+                'シェルダー', 'パルシェン', 'スリーパー', 'キングラー', 'ビリリダマ',
+                'マルマイン', 'サワムラー', 'エビワラー', 'ベロリンガ', 'マタドガス',
+                'サイホーン', 'モンジャラ', 'トサキント', 'アズマオウ', 'ヒトデマン',
+                'スターミー', 'バリヤード', 'ストライク', 'ルージュラ', 'ケンタロス',
+                'コイキング', 'ギャラドス', 'シャワーズ', 'サンダース', 'ブースター',
+                'オムナイト', 'オムスター', 'カブトプス', 'フリーザー', 'ファイヤー',
+                'ミニリュウ', 'ハクリュー', 'カイリュー', 'ミュウツー', 'チコリータ',
+                'ベイリーフ', 'メガニウム', 'ヒノアラシ', 'マグマラシ', 'バクフーン',
+                'アリゲイツ', 'オーダイル', 'ヨルノズク', 'レディアン', 'アリアドス',
+                'クロバット', 'チョンチー', 'ランターン', 'トゲチック', 'ネイティオ',
+                'デンリュウ', 'キレイハナ', 'ウソッキー', 'ニョロトノ', 'ヒマナッツ',
+                'ヤンヤンマ', 'ブラッキー', 'ヤミカラス', 'ヤドキング', 'アンノーン',
+                'ソーナンス', 'キリンリキ', 'クヌギダマ', 'フォレトス', 'グライガー',
+                'ハガネール', 'グランブル', 'ハリーセン', 'ヘラクロス', 'マグマッグ',
+                'マグカルゴ', 'テッポウオ', 'デリバード', 'マンタイン', 'エアームド',
+                'キングドラ', 'ドンファン', 'ポリゴン2', 'カポエラー', 'ムチュール',
+                'エレキッド', 'ミルタンク', 'ヨーギラス', 'サナギラス', 'バンギラス',
+                'ジュプトル', 'ジュカイン', 'ワカシャモ', 'バシャーモ', 'ミズゴロウ',
+                'ヌマクロー', 'ラグラージ', 'ジグザグマ', 'マッスグマ', 'カラサリス',
+                'アゲハント', 'ドクケイル', 'ハスブレロ', 'ルンパッパ', 'ダーテング',
+                'オオスバメ', 'ペリッパー', 'サーナイト', 'アメモース', 'キノガッサ',
+                'ヤルキモノ', 'ケッキング', 'テッカニン', 'ゴニョニョ', 'バクオング',
+                'マクノシタ', 'ハリテヤマ', 'エネコロロ', 'ボスゴドラ', 'チャーレム',
+                'ライボルト', 'バルビート', 'イルミーゼ', 'マルノーム', 'サメハダー',
+                'ホエルオー', 'ブーピッグ', 'パッチール', 'ナックラー', 'ビブラーバ',
+                'フライゴン', 'チルタリス', 'ザングース', 'ハブネーク', 'ルナトーン',
+                'ソルロック', 'ドジョッチ', 'シザリガー', 'ネンドール', 'ユレイドル',
+                'アーマルド', 'ミロカロス', 'カクレオン', 'カゲボウズ', 'ジュペッタ',
+                'サマヨール', 'トロピウス', 'ユキワラシ', 'オニゴーリ', 'タマザラシ',
+                'トドグラー', 'トドゼルガ', 'ハンテール', 'サクラビス', 'ジーランス',
+                'ボーマンダ', 'メタグロス', 'レジロック', 'レジアイス', 'レジスチル',
+                'ラティアス', 'ラティオス', 'カイオーガ', 'グラードン', 'レックウザ',
+                'デオキシス', 'ハヤシガメ', 'ドダイトス', 'モウカザル', 'ゴウカザル',
+                'ポッチャマ', 'ポッタイシ', 'エンペルト', 'ムクバード', 'ムクホーク',
+                'コロボーシ', 'コロトック', 'レントラー', 'ロズレイド', 'ズガイドス',
+                'ラムパルド', 'タテトプス', 'トリデプス', 'ミノムッチ', 'ミノマダム',
+                'ガーメイル', 'ミツハニー', 'ビークイン', 'フローゼル', 'チェリンボ',
+                'カラナクシ', 'トリトドン', 'エテボース', 'フワライド', 'ミミロップ',
+                'ムウマージ', 'ドンカラス', 'ニャルマー', 'ブニャット', 'リーシャン',
+                'スカンプー', 'スカタンク', 'ドーミラー', 'ドータクン', 'ガブリアス',
+                'ヒポポタス', 'カバルドン', 'ドラピオン', 'グレッグル', 'ドクロッグ',
+                'マスキッパ', 'ケイコウオ', 'ネオラント', 'ユキカブリ', 'ユキノオー',
+                'マニューラ', 'ジバコイル', 'ベロベルト', 'ドサイドン', 'モジャンボ',
+                'エレキブル', 'ブーバーン', 'トゲキッス', 'メガヤンマ', 'リーフィア',
+                'グレイシア', 'グライオン', 'ポリゴンZ', 'エルレイド', 'ダイノーズ',
+                'ヨノワール', 'ユキメノコ', 'エムリット', 'ディアルガ', 'ヒードラン',
+                'レジギガス', 'ギラティナ', 'クレセリア', 'ダークライ', 'アルセウス',
+                'ビクティニ', 'ツタージャ', 'ジャノビー', 'ジャローダ', 'チャオブー',
+                'エンブオー', 'ミジュマル', 'フタチマル', 'ダイケンキ', 'ミルホッグ',
+                'ヨーテリー', 'ハーデリア', 'ムーランド', 'チョロネコ', 'レパルダス',
+                'ヤナッキー', 'バオッキー', 'ヒヤッキー', 'ムシャーナ', 'ハトーボー',
+                'ケンホロウ', 'ゼブライカ', 'ギガイアス', 'ココロモリ', 'モグリュー',
+                'ドリュウズ', 'ドッコラー', 'ドテッコツ', 'ローブシン', 'ガマゲロゲ',
+                'ハハコモリ', 'ペンドラー', 'エルフーン', 'ドレディア', 'ワルビアル',
+                'ダルマッカ', 'ヒヒダルマ', 'マラカッチ', 'イシズマイ', 'イワパレス',
+                'ズルズキン', 'シンボラー', 'デスカーン', 'プロトーガ', 'アバゴーラ',
+                'アーケオス', 'ヤブクロン', 'ダストダス', 'ゾロアーク', 'チラーミィ',
+                'チラチーノ', 'ゴチルゼル', 'ランクルス', 'コアルヒー', 'バニプッチ',
+                'バニリッチ', 'バイバニラ', 'メブキジカ', 'シュバルゴ', 'タマゲタケ',
+                'モロバレル', 'ブルンゲル', 'ママンボウ', 'デンチュラ', 'テッシード',
+                'ナットレイ', 'ギギギアル', 'シビシラス', 'シビビール', 'シビルドン',
+                'ランプラー', 'シャンデラ', 'オノノクス', 'クマシュン', 'ツンベアー',
+                'フリージオ', 'チョボマキ', 'アギルダー', 'コジョフー', 'コジョンド',
+                'クリムガン', 'キリキザン', 'バッフロン', 'ウォーグル', 'バルチャイ',
+                'バルジーナ', 'クイタラン', 'アイアント', 'サザンドラ', 'ウルガモス',
+                'コバルオン', 'テラキオン', 'ビリジオン', 'トルネロス', 'ボルトロス',
+                'ランドロス', 'ケルディオ', 'メロエッタ', 'ゲノセクト', 'ハリマロン',
+                'ハリボーグ', 'ブリガロン', 'テールナー', 'ゲコガシラ', 'ゲッコウガ',
+                'ヒノヤコマ', 'コフキムシ', 'コフーライ', 'カエンジシ', 'フラエッテ',
+                'メェークル', 'ゴーゴート', 'ヤンチャム', 'トリミアン', 'ニャスパー',
+                'ニダンギル', 'ギルガルド', 'シュシュプ', 'フレフワン', 'ペロッパフ',
+                'ペロリーム', 'マーイーカ', 'カラマネロ', 'ガメノデス', 'ドラミドロ',
+                'ウデッポウ', 'ブロスター', 'エリキテル', 'エレザード', 'ガチゴラス',
+                'アマルルガ', 'ニンフィア', 'ルチャブル', 'ヌメルゴン', 'クレッフィ',
+                'オーロット', 'バケッチャ', 'パンプジン', 'カチコール', 'クレベース',
+                'オンバット', 'オンバーン', 'ゼルネアス', 'イベルタル', 'フクスロー',
+                'ニャヒート', 'ガオガエン', 'オシャマリ', 'アシレーヌ', 'ケララッパ',
+                'ドデカバシ', 'ヤングース', 'デカグース', 'アゴジムシ', 'デンヂムシ',
+                'クワガノン', 'マケンカニ', 'ケケンカニ', 'オドリドリ', 'アブリボン',
+                'ルガルガン', 'ドヒドイデ', 'ドロバンコ', 'バンバドロ', 'ラランテス',
+                'マシェード', 'ヤトウモリ', 'ヌイコグマ', 'キテルグマ', 'アママイコ',
+                'アマージョ', 'キュワワー', 'コソクムシ', 'シロデスナ', 'ナマコブシ',
+                'ネッコアラ', 'バクガメス', 'トゲデマル', 'ミミッキュ', 'ハギギシリ',
+                'ジジーロン', 'ジャランゴ', 'コスモッグ', 'コスモウム', 'ソルガレオ',
+                'ルナアーラ', 'ウツロイド', 'テッカグヤ', 'カミツルギ', 'ネクロズマ',
+                'アーゴヨン', 'ズガドーン', 'メルメタル', 'バチンキー', 'ラビフット',
+                'ジメレオン', 'ホシガリス', 'ヨクバリス', 'アオガラス', 'サッチムシ',
+                'レドームシ', 'ワタシラガ', 'カジリガメ', 'パルスワン', 'トロッゴン',
+                'カジッチュ', 'タルップル', 'サダイジャ', 'サシカマス', 'マルヤクデ',
+                'オトスパス', 'ポットデス', 'ブリムオン', 'オーロンゲ', 'サニゴーン',
+                'バリコオル', 'デスバーン', 'マホイップ', 'タイレーツ', 'バチンウニ',
+                'コオリッポ', 'イエッサン', 'ドラメシヤ', 'ドラパルト', 'ザマゼンタ',
+                'ウーラオス', 'レジエレキ', 'レジドラゴ', 'ブリザポス', 'レイスポス',
+                'イダイトウ', 'ハリーマン', 'ラブトロス', 'ニャローテ', 'アチゲータ',
+                'ウェルカモ', 'ワナイダー', 'マメバッタ', 'パーモット', 'パピモッチ',
+                'オリーニョ', 'オリーヴァ', 'イキリンコ', 'ハラバリー', 'タギングル',
+                'ノノクラゲ', 'リククラゲ', 'カプサイジ', 'カヌチャン', 'ウミトリオ',
+                'オトシドリ', 'ナミイルカ', 'イルカマン', 'モトトカゲ', 'キラフロル',
+                'ハカドッグ', 'カラミンゴ', 'アルクジラ', 'ハルクジラ', 'ミガルーサ',
+                'シャリタツ', 'コノヨザル', 'リキキリン', 'ノココッチ', 'ドドゲザン',
+                'セグレイブ', 'コレクレー', 'サーフゴー', 'パオジアン', 'ディンルー',
+                'コライドン', 'ミライドン'
+            ]
+            let text_form = document.getElementById('pokedle-input');
+            // ポケドルの答えをランダムに選択
+            let answer = pokemonNames[Math.floor(Math.random() * pokemonNames.length)];
+
+            // プレイヤーの回答回数
+            let remainingAttempts = 9;
+
+            // ユーザーの回答を保持する配列
+            let userGuesses = [];
+
+            // ユーザーが入力した回答のチェック
+            function checkAnswer() {
+                let userInput = document.getElementById("pokedle-input").value.toUpperCase();
+                let textForm = document.getElementById("pokedle-input");
+                textForm.value = '';
+                if (userInput.length !== answer.length) {
+                    document.getElementById("pokedle-result").innerText = "入力が正しくありません。";
+                    return;
+                }
+
+
+
+                let masuStatus = "";
+
+
+                remainingAttempts--;
+                document.getElementById("pokedle-attempts").innerText = remainingAttempts.toString();
+
+                let result = "";
+
+                let correctIndexes = [];
+                let matchIndexes = [];
+
+                for (let i = 0; i < answer.length; i++) {
+                    if (userInput[i] === answer[i]) {
+                        result += "O";
+                        correctIndexes.push(i);
+                    } else if (answer.indexOf(userInput[i]) !== -1) {
+                        result += "X";
+                        matchIndexes.push(i);
+                    } else {
+                        result += "-";
+                    }
+                }
+
+                for (let i = 0; i < answer.length; i++) {
+                    if (userInput[i] === answer[i]) {
+                        masuStatus += "🟩";
+                        correctIndexes.push(i);
+                    } else if (answer.indexOf(userInput[i]) !== -1) {
+                        masuStatus += "🟨";
+                        matchIndexes.push(i);
+                    } else {
+                        masuStatus += "⬛";
+                    }
+                }
+                let cells = document.getElementsByClassName("pokedle-cell");
+                for (let i = 0; i < cells.length; i++) {
+                    cells[i].classList.add("flip");
+                }
+                setTimeout(function () {
+                    for (var j = 0; j < cells.length; j++) {
+                        cells[j].classList.remove("flip");
+                    }
+                }, 500);
+
+                document.getElementById("pokedle-result").innerText = result;
+
+                // 回答をマスに入れて表示し、正解に含まれる文字のマスを黄色、正解と一致する文字のマスを緑にする
+                for (let j = 0; j < answer.length; j++) {
+                    let cell = document.getElementById("pokedle-cell-" + userGuesses.length + "-" + j);
+                    cell.innerText = userInput[j];
+                    cell.classList.remove("pokedle-correct", "pokedle-match");
+
+                    if (correctIndexes.indexOf(j) !== -1) {
+                        cell.classList.add("pokedle-correct");
+                    } else if (matchIndexes.indexOf(j) !== -1) {
+                        cell.classList.add("pokedle-match");
+                    }
+                }
+
+                // ユーザーの回答を保持
+                userGuesses.push(masuStatus);
+
+                // ゲームオーバーチェック
+                if (remainingAttempts === 0 || userInput === answer) {
+                    document.getElementById("pokedle-input").disabled = true;
+                    document.getElementById("pokedle-button").classList.add("pokedle-hidden");
+                    document.getElementById("pokedle-twitter").classList.remove("pokedle-hidden");
+                    document.getElementById("kotae").classList.remove("pokedle-hidden");
+                    document.getElementById("answer").innerText = answer.toString();
                 }
             }
 
-            for (let i = 0; i < answer.length; i++) {
-                if (userInput[i] === answer[i]) {
-                    masuStatus += "🟩";
-                    correctIndexes.push(i);
-                } else if (answer.indexOf(userInput[i]) !== -1) {
-                    masuStatus += "🟨";
-                    matchIndexes.push(i);
-                } else {
-                    masuStatus += "⬛";
+            // ツイッターで共有
+            function shareOnTwitter() {
+                let masuStatus = "";
+                for (let i = 0; i < userGuesses.length; i++) {
+                    masuStatus += userGuesses[i].replaceAll("-", "⬛").replaceAll("O", "🟩").replaceAll("X", "🟨");
+                    if (i !== userGuesses.length - 1) {
+                        masuStatus += "\n";
+                    }
                 }
+
+                let tweetText = encodeURIComponent("Yokodle " + (9 - remainingAttempts) + "/9\n\n" + masuStatus + "\n\n#Yokodle #YSC");
+                let tweetURL = "https://twitter.com/intent/tweet?text=" + tweetText;
+                window.open(tweetURL);
             }
-            let cells = document.getElementsByClassName("pokedle-cell");
-            for (let i = 0; i < cells.length; i++) {
-                cells[i].classList.add("flip");
-            }
-            setTimeout(function() {
-		    for (var j = 0; j < cells.length; j++) {
-                    cells[j].classList.remove("flip");
+            function enter_e(e) {
+                if (e.keyCode === 13) {
+                    checkAnswer()
                 }
-            }, 500);
-	    
-            document.getElementById("pokedle-result").innerText = result;
-            
-            // 回答をマスに入れて表示し、正解に含まれる文字のマスを黄色、正解と一致する文字のマスを緑にする
-            for (let j = 0; j < answer.length; j++) {
-                let cell = document.getElementById("pokedle-cell-" + userGuesses.length + "-" + j);
-                cell.innerText = userInput[j];
-                cell.classList.remove("pokedle-correct", "pokedle-match");
-                
-                if (correctIndexes.indexOf(j) !== -1) {
-                    cell.classList.add("pokedle-correct");
-                } else if (matchIndexes.indexOf(j) !== -1) {
-                    cell.classList.add("pokedle-match");
-                }
+                return false;
             }
-            
-            // ユーザーの回答を保持
-            userGuesses.push(masuStatus);
-            
-            // ゲームオーバーチェック
+            // ページの読み込み時に初期化処理を実行
+            window.onload = function () {
+                // 回答マスの初期化
+                text_form.addEventListener('keypress', enter_e);
+
+                let grid = document.getElementById("pokedle-grid");
+                for (let i = 0; i < 9; i++) {
+                    let row = document.createElement("div");
+                    row.classList.add("pokedle-row");
+
+                    for (let j = 0; j < 5; j++) {
+                        let cell = document.createElement("div");
+                        cell.id = "pokedle-cell-" + i + "-" + j;
+                        cell.classList.add("pokedle-cell");
+                        row.appendChild(cell);
+                    }
+
+                    grid.appendChild(row);
+                }
+
+                // 回答回数の表示
+
+                document.getElementById("pokedle-attempts").innerText = remainingAttempts.toString();
+            };
+            // 正解のメッセージを表示
+            function showSuccessMessage() {
+                let successMessage = document.createElement("p");
+                successMessage.innerText = "おめでとうございます！正解です！";
+                document.querySelector(".pokedle-container").appendChild(successMessage);
+            }
+
+            // チェックボタンのクリックイベントを削除
+            document.getElementById("pokedle-button").removeEventListener("click", checkAnswer);
+
+            // 正解時にツイッターボタンを表示
             if (remainingAttempts === 0 || userInput === answer) {
-                document.getElementById("pokedle-input").disabled = true;
                 document.getElementById("pokedle-button").classList.add("pokedle-hidden");
                 document.getElementById("pokedle-twitter").classList.remove("pokedle-hidden");
                 document.getElementById("kotae").classList.remove("pokedle-hidden");
-		document.getElementById("answer").innerText = answer.toString();
+
+                // 正解メッセージを表示
+                showSuccessMessage();
             }
-        }
-        
-        // ツイッターで共有
-        function shareOnTwitter() {
-            let masuStatus = "";
-            for (let i = 0; i < userGuesses.length; i++) {
-                masuStatus += userGuesses[i].replaceAll("-", "⬛").replaceAll("O", "🟩").replaceAll("X", "🟨");
-                if (i !== userGuesses.length - 1) {
-                    masuStatus += "\n";
-                }
-            }
-            
-            let tweetText = encodeURIComponent("Yokodle " + (9 - remainingAttempts) + "/9\n\n" + masuStatus + "\n\n#Yokodle #YSC");
-            let tweetURL = "https://twitter.com/intent/tweet?text=" + tweetText;
-            window.open(tweetURL);
-        }
-function enter_e(e) {
-  	      if (e.keyCode === 13) {
-                checkAnswer()
-              } 
-	      return false;
-            }
-        // ページの読み込み時に初期化処理を実行
-        window.onload = function() {
-            // 回答マスの初期化
-	    text_form.addEventListener('keypress', enter_e);
+        </script>
 
-            let grid = document.getElementById("pokedle-grid");
-            for (let i = 0; i < 9; i++) {
-                let row = document.createElement("div");
-                row.classList.add("pokedle-row");
-                
-                for (let j = 0; j < 5; j++) {
-                    let cell = document.createElement("div");
-                    cell.id = "pokedle-cell-" + i + "-" + j;
-                    cell.classList.add("pokedle-cell");
-                    row.appendChild(cell);
-                }
-                
-                grid.appendChild(row);
-            }
-            
-            // 回答回数の表示
+    </body>
+</main>
 
-            document.getElementById("pokedle-attempts").innerText = remainingAttempts.toString();
-        };
-        // 正解のメッセージを表示
-        function showSuccessMessage() {
-            let successMessage = document.createElement("p");
-            successMessage.innerText = "おめでとうございます！正解です！";
-            document.querySelector(".pokedle-container").appendChild(successMessage);
-        }
+<!-- Footerを設定 -->
+<footer>
+    <p>&copy; 2024 Yokosuka Science Club. All rights reserved.</p>
+</footer>
 
-        // チェックボタンのクリックイベントを削除
-        document.getElementById("pokedle-button").removeEventListener("click", checkAnswer);
-
-        // 正解時にツイッターボタンを表示
-        if (remainingAttempts === 0 || userInput === answer) {
-            document.getElementById("pokedle-button").classList.add("pokedle-hidden");
-            document.getElementById("pokedle-twitter").classList.remove("pokedle-hidden");
-            document.getElementById("kotae").classList.remove("pokedle-hidden");
-
-            // 正解メッセージを表示
-            showSuccessMessage();
-        }
-    </script>
-</body>
-    <script>
-        // ポケモンの名前リスト
-        
-    </script>
-</head>
+<!-- JavaScriptファイルを指定 -->
 
 </html>
