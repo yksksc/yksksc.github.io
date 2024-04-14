@@ -9,34 +9,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yokodle|YSC</title>
-    <script src="./global.js"></script>
 
     <!-- CSSファイルを指定 -->
     <link rel="stylesheet" type="text/css" href="./global.css">
 </head>
 
-    <!-- Header(上のやつ) -->
-    <header class="header-body">
-        <!-- 背景の動画 -->
+<!-- Header(上のやつ) -->
+<header class="header-body">
+    <!-- 背景の動画 -->
 
-        <h1>YokosukaScienceClub</h1>
-        <nav>
-            <ul><br class="sp">
-                <li><a href="./index.html">Home</a></li>
-                <li><a href="./info.html">Info</a></li>
-                <li><a href="./fields.html">Fields</a></li>
-                <li><a href="./games.html">Games</a></li>
-                <li><a href="./contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <h1>YokosukaScienceClub</h1>
+    <nav>
+        <ul><br class="sp">
+            <li><a href="./index.html">Home</a></li>
+            <li><a href="./info.html">Info</a></li>
+            <li><a href="./fields.html">Fields</a></li>
+            <li><a href="./games.html">Games</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+        </ul>
+    </nav>
+</header>
 
 <!-- メインの要素 -->
 
 
-<main>
 
-    <body class="body-content">
+<body>
+    <main>
 
         <h1 class="h1-content">YOKODLE（ヨコドル）</h1>
         <div class="pokedle-container">
@@ -179,12 +178,30 @@
                 let userInput = document.getElementById("pokedle-input").value.toUpperCase();
                 let textForm = document.getElementById("pokedle-input");
                 textForm.value = '';
+
+
+
                 if (userInput.length !== answer.length) {
                     document.getElementById("pokedle-result").innerText = "入力が正しくありません。";
                     return;
                 }
 
+                for (let i = 0; i < userInput.length; i++) {
+                    // ▼文字が入力されたタイミングでチェックする：
+                    if ((userInput[i].match(/[^ぁ-んァ-ヶー\s]/))) {
+                        document.getElementById("pokedle-result").innerText = "入力が正しくありません。";
+                        return;
+                    };
+                };
 
+                function hiraToKana(str) {
+                    return str.replace(/[\u3041-\u3096]/g, function (match) {
+                        var chr = match.charCodeAt(0) + 0x60;
+                        return String.fromCharCode(chr);
+                    });
+                };
+
+                userInput = hiraToKana(userInput);
 
                 let masuStatus = "";
 
@@ -322,9 +339,9 @@
                 showSuccessMessage();
             }
         </script>
+    </main>
 
-    </body>
-</main>
+</body>
 
 <!-- Footerを設定 -->
 <footer>
@@ -332,5 +349,6 @@
 </footer>
 
 <!-- JavaScriptファイルを指定 -->
+<script src="./global.js"></script>
 
 </html>

@@ -584,14 +584,9 @@ video {
     font-family: Arial, sans-serif;
     text-align: center;
     text-shadow: none;
-    color: #000;
+    color: #ffffff;
 }
 
-#pokedle-twitter {
-    font-family: Arial, sans-serif;
-    text-shadow: none;
-    color: #FFF;
-}
 
 #kotae {
     font-family: Arial, sans-serif;
@@ -620,6 +615,14 @@ video {
     font-size: 32px;
     cursor: url(images/sansyo_cursor.png), default;
     text-align: center;
+}
+
+#pokedle-twitter {
+    margin-bottom: 20px;
+    background-color: #006eff;
+    font-family: Arial, sans-serif;
+    text-shadow: none;
+    color: #FFF;
 }
 
 .pokedle-result {
