@@ -423,18 +423,17 @@ video {
     }
 
     header {
-        padding: 10px 20px;
+        padding: 5px 10px;
     }
 
     footer {
         text-align: center;
         background-color: #333;
         color: #fff;
-        padding: 10px;
     }
 
     h1 {
-        font-size: 30px;
+        font-size: 20px;
         margin: 0;
     }
 
@@ -458,10 +457,8 @@ video {
     }
 
     main {
-        padding: 20px;
         margin-left: 20px;
         /* 左側に20pxのマージンを追加 */
-        margin-right: 20px;
         /* 右側に20pxのマージンを追加 */
     }
 
