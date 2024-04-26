@@ -230,8 +230,8 @@ footer {
     text-align: center;
     background-color: #333;
     color: #fff;
+    width: auto;
     height: 300%;
-    padding: 10px;
 }
 
 /* PCの要素だけを表示 */
@@ -693,7 +693,7 @@ iframe {
 }
 
 .dynamic_header_image img {
-    width: 130%;
+    width: 100%;
     height: 80%;
     object-fit: cover;
     filter: brightness(0.8);
