@@ -9,6 +9,19 @@
     box-sizing: border-box;
 }
 
+/* Apply to the header image only */
+.dynamic_header_image {
+    margin: 0 !important;
+    /* Override any margin */
+    padding: 0 !important;
+    /* Override any padding */
+    width: 100vw;
+    height: 40vh;
+    overflow: hidden;
+    position: relative;
+}
+
+
 html {
     cursor: url(images/sansyo_cursor.png), default;
     scroll-behavior: smooth;
@@ -29,9 +42,17 @@ body {
     /* 文字色を白に設定 */
     text-shadow: -8px -8px 16px rgba(0, 0, 0, 1), 8px -8px 16px rgba(0, 0, 0, 1), -8px 8px 16px rgba(0, 0, 0, 1), 8px 8px 16px rgba(0, 0, 0, 1);
     margin: 0;
-    padding-top: 120px;
     /* ヘッダーの後ろに要素が隠れないようにするため */
     overflow: hidden visible;
+}
+
+/* Reset only for other elements to use margin/padding */
+.container {
+    margin: 200px 0;
+    padding-top: 120px;
+    padding: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 .frame_controller {
@@ -67,13 +88,6 @@ header {
     width: 100%;
 }
 */
-
-/* アニメーションを初期状態で非表示にする */
-.scroll-animate-element {
-    opacity: 0;
-    margin: 200px 0;
-    /* 上下に50pxのマージンを追加 */
-}
 
 /* スクロールして要素が画面に表示されたらフェードインする */
 .scroll-animate-element.fade-in {
@@ -123,13 +137,6 @@ nav a {
 
 nav a:hover {
     color: #ffcc00;
-}
-
-main {
-    padding: 20px;
-    margin-left: 50px;
-    /* 左側に50pxのマージンを追加 */
-    margin-right: 50px;
 }
 
 section {
@@ -278,6 +285,13 @@ video {
         text-shadow: -2px -2px 4px rgba(0, 0, 0, 1), 2px -2px 4px rgba(0, 0, 0, 1), -2px 2px 4px rgba(0, 0, 0, 1), 2px 2px 4px rgba(0, 0, 0, 1);
     }
 
+    .container {
+        margin: 50px 0;
+        padding: 20px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
     .header-body {
         font-family: 'Courier New', monospace;
         /* 代替のフォントを指定 */
@@ -321,14 +335,6 @@ video {
 
     nav a:hover {
         color: #ffcc00;
-    }
-
-    main {
-        padding: 20px;
-        margin-left: 20px;
-        /* 左側に20pxのマージンを追加 */
-        margin-right: 20px;
-        /* 右側に20pxのマージンを追加 */
     }
 
     section {
@@ -378,12 +384,6 @@ video {
         width: 100%;
     }
 
-    .scroll-animate-element {
-        opacity: 0;
-        margin: 50px 0;
-        /* 上下に50pxのマージンを追加 */
-    }
-
     .team-member img {
         width: 150px;
         height: 150px;
@@ -410,6 +410,11 @@ video {
         color: white;
         /* 文字色を白に設定 */
         text-shadow: -2px -2px 4px rgba(0, 0, 0, 1), 2px -2px 4px rgba(0, 0, 0, 1), -2px 2px 4px rgba(0, 0, 0, 1), 2px 2px 4px rgba(0, 0, 0, 1);
+    }
+
+    .container {
+        margin: 50px 0;
+        margin-left: 20px;
     }
 
     .header-body {
@@ -454,12 +459,6 @@ video {
 
     nav a:hover {
         color: #ffcc00;
-    }
-
-    main {
-        margin-left: 20px;
-        /* 左側に20pxのマージンを追加 */
-        /* 右側に20pxのマージンを追加 */
     }
 
     section {
@@ -507,12 +506,6 @@ video {
     .air-space {
         height: 20px;
         width: 100%;
-    }
-
-    .scroll-animate-element {
-        opacity: 0;
-        margin: 50px 0;
-        /* 上下に50pxのマージンを追加 */
     }
 
     .team-member {
@@ -680,23 +673,30 @@ iframe {
     cursor: url(images/sansyo_cursor.png), default;
 }
 
+/* Adjust header image */
 .dynamic_header_image {
     width: 100vw;
-    height: 0;
-    padding-bottom: 40%;
+    /* Ensure the width takes the full viewport width */
+    height: 40vh;
+    /* Adjust the height as needed */
+    overflow: hidden;
     position: relative;
-    top: 0;
-    left: 0;
+    margin: 0;
+    /* Ensure there's no margin around the image */
+    padding: 0;
+    /* Ensure there's no padding around the image */
 }
 
 .dynamic_header_image img {
-    width: 100%;
-    height: 80%;
+    width: 100vw;
+    /* Ensure the width takes the full viewport width */
+    height: 100%;
+    /* Make sure the height is 100% of the container */
     object-fit: cover;
-    filter: brightness(0.8);
+    /* Maintain the aspect ratio and cover the entire container */
     position: absolute;
     top: 0;
-    left: -20%;
+    left: 0;
 }
 
 .dynamic_header_image figcaption,
@@ -710,11 +710,9 @@ iframe {
 }
 
 .dynamic_header_image figcaption {
-    position: absolute;
-    top: 50%;
-    left: -10%;
+    position: relative;
+    z-index: 1;
     width: 100%;
-    transform: translateY(-50%);
     padding: 1rem;
 }
 
@@ -726,8 +724,54 @@ iframe {
     font-size: 1rem;
 }
 
+/* Remove extra margin for the section following the header image */
 .dynamic_header_image+section {
-    margin-top: 10rem;
+    margin-top: 0;
+    /* Adjust this if necessary */
+    padding: 0;
+    /* Ensure no padding is added */
+}
+
+/* Media queries for smaller screens */
+@media (max-width: 768px) {
+    .dynamic_header_image {
+        height: 30vh;
+        /* Adjust the height for mobile */
+    }
+
+    .dynamic_header_image figcaption,
+    .dynamic_header_image figcaption * {
+        font-size: 4vw;
+        /* Adjust the font size for mobile */
+    }
+
+    .dynamic_header_image figcaption ruby rt {
+        font-size: 0.5em;
+    }
+
+    .dynamic_header_image figcaption p {
+        font-size: 0.8rem;
+        /* Adjust paragraph font size for mobile */
+    }
+}
+
+/* Additional media query for very small screens */
+@media (max-width: 480px) {
+    .dynamic_header_image {
+        height: 25vh;
+        /* Further adjust the height for very small screens */
+    }
+
+    .dynamic_header_image figcaption,
+    .dynamic_header_image figcaption * {
+        font-size: 3vw;
+        /* Further adjust the font size for very small screens */
+    }
+
+    .dynamic_header_image figcaption p {
+        font-size: 0.7rem;
+        /* Further adjust paragraph font size for very small screens */
+    }
 }
 
 #youtube_outer {

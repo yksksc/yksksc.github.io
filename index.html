@@ -38,7 +38,6 @@
     <!-- メインの要素 -->
     <main>
         <div class="fixed-element">
-
             <section class="scroll-animate-element">
                 <h2>とてもユニークな部活</h2>
                 <p>絶滅危惧種を育てたりVtuberを運営したり普通の科学部とは全く違う活動ができます</p>
@@ -57,32 +56,34 @@
                     科学部、それは<ruby>楽園<rt>パラダイス</rt></ruby>—
                 </figcaption>
             </figure>
-            <section>
-                <p class="slide_up" data-delighter>
-                    科学部では部員がそれぞれの得意分野で生き生きと活動しています。<br><br>
-                </p>
-                <p></p>
+            <!-- .dynamic_header_image の直後に .container を追加 -->
+            <div class="container">
+                <section>
+                    <p class="slide_up" data-delighter>
+                        科学部では部員がそれぞれの得意分野で生き生きと活動しています。<br><br>
+                    </p>
+                    <p></p>
 
-                <h2 class="slide_in" data-delighter>部員の声</h2>
+                    <h2 class="slide_in" data-delighter>部員の声</h2>
 
-                <div class="team-member">
-                    <img src="images/tokumei_member.png">
-                    <div>
-                        <h3>匿名部員</h3>
-                        <p>毎日が非常に楽しく、満足しています。科学部に入ってから友だちが増え、お小遣いが増えて、彼女も増え、隠さなければいけないテストの枚数も増えました。最高です。</p>
+                    <div class="team-member">
+                        <img src="images/tokumei_member.png">
+                        <div>
+                            <h3>匿名部員</h3>
+                            <p>毎日が非常に楽しく、満足しています。科学部に入ってから友だちが増え、お小遣いが増えて、彼女も増え、隠さなければいけないテストの枚数も増えました。最高です。</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="team-member">
-                    <img src="images/k_member.png">
-                    <div>
-                        <h3>部員K</h3>
-                        <p>部活動中に歌を歌ったり、アニメを鑑賞したり非常に充実した毎日を送っています。</p>
+                    <div class="team-member">
+                        <img src="images/k_member.png">
+                        <div>
+                            <h3>部員K</h3>
+                            <p>部活動中に歌を歌ったり、アニメを鑑賞したり非常に充実した毎日を送っています。</p>
+                        </div>
                     </div>
-                </div>
 
-            </section>
-
+                </section>
+            </div>
 
             <!-- 桜サンショウの公式Twitterを貼りたい -->
             <section class="scroll-animate-element">
@@ -97,19 +98,16 @@
                 </div>
 
                 -->
-                
-                    
             </section>
 
+        </div>
     </main>
 
     <!-- Footerを設定 -->
-    </div>
     <footer>
         <p>&copy; 2024 Yokosuka Science Club. All rights reserved.</p>
     </footer>
 
-    </div>
     <!-- JavaScriptファイルを指定 -->
     <script src="./global.js"></script>
 </body>
