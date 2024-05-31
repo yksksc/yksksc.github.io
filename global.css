@@ -48,7 +48,13 @@ body {
 
 /* Reset only for other elements to use margin/padding */
 .container {
-    margin: 200px 0;
+    padding-top: 120px;
+    padding: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.slide_up {
     padding-top: 120px;
     padding: 20px;
     margin-left: 50px;
@@ -140,6 +146,7 @@ nav a:hover {
 }
 
 section {
+    margin: 200px 0;
     margin-bottom: 30px;
 }
 
@@ -286,7 +293,7 @@ video {
     }
 
     .container {
-        margin: 50px 0;
+        margin: 150px 0;
         padding: 20px;
         margin-left: 20px;
         margin-right: 20px;
@@ -339,6 +346,7 @@ video {
 
     section {
         margin-bottom: 10px;
+        margin: 60px 0;
     }
 
     section h2 {
@@ -463,6 +471,7 @@ video {
 
     section {
         margin-bottom: 10px;
+        margin: 50px;
     }
 
     section h2 {
@@ -741,7 +750,7 @@ iframe {
 
     .dynamic_header_image figcaption,
     .dynamic_header_image figcaption * {
-        font-size: 4vw;
+        font-size: 7vw;
         /* Adjust the font size for mobile */
     }
 
@@ -750,7 +759,7 @@ iframe {
     }
 
     .dynamic_header_image figcaption p {
-        font-size: 0.8rem;
+        font-size: 2rem;
         /* Adjust paragraph font size for mobile */
     }
 }
@@ -764,12 +773,12 @@ iframe {
 
     .dynamic_header_image figcaption,
     .dynamic_header_image figcaption * {
-        font-size: 3vw;
+        font-size: 6vw;
         /* Further adjust the font size for very small screens */
     }
 
     .dynamic_header_image figcaption p {
-        font-size: 0.7rem;
+        font-size: 1rem;
         /* Further adjust paragraph font size for very small screens */
     }
 }
