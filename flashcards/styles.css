@@ -24,7 +24,6 @@ body {
     height: 200px;
     perspective: 1000px;
     position: relative;
-    padding: 10px 20px;
 }
 
 .card {
