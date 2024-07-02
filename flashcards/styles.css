@@ -85,7 +85,7 @@ button, select {
 
 @media (max-width: 480px) {
     .flashcard {
-        width: 80%;
+        width: 75%;
         height: 130px;
     }
 
