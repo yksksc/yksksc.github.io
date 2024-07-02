@@ -57,7 +57,6 @@ function showNextFlashcard() {
         flashcardsContainer.innerHTML = '<p>全てのカードを表示しました！</p>';
         setTimeout(() => {
             flashcardsContainer.innerHTML = '';
-            genreSelect.value = '';
         }, 2000);
     } else {
         flashcardsContainer.innerHTML = '';
